@@ -285,6 +285,8 @@ function enableResizing(elements, resizeTarget) {
 	function updateMousePos(ev) {
 		dpos = { dx: ev.clientX - pos0.x, dy: ev.clientY - pos0.y };
 		pos0 = { x: ev.clientX, y: ev.clientY };
+
+		fullscreen = false;
 	}
 
 	function changeWidth(invert) {
