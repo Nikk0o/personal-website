@@ -1,21 +1,7 @@
-class PositionProperties {
-	constructor(width, height, top, left) {
-		this.width = width;
-		this.height = height;
-		this.top = top;
-		this.left = left;
-	}
-}
-
 class ScreenItem {
 	constructor(name, obj, properties) {
 		this.name = name;
 		this.scrObject = obj;
-
-		this.scrObject.style.width = properties.width;
-		this.scrObject.style.height = properties.height;
-		this.scrObject.style.top = properties.top;
-		this.scrObject.style.left = properties.left;
 	}
 
 	get object() {
@@ -23,12 +9,12 @@ class ScreenItem {
 	}
 
 	get properties() {
-		return new PositionProperties(
-			this.scrObject.style.width,
-			this.scrObject.style.height,
-			this.scrObject.style.top,
-			this.scrObject.style.left
-		);
+		return {
+			width: this.scrObject.style.width,
+			height: this.scrObject.style.height,
+			top: this.scrObject.style.top,
+			left: this.scrObject.style.left
+		};
 	}
 }
 
@@ -36,6 +22,9 @@ const Movable = (Base) =>
 	class extends Base {
 		constructor(name, obj, properties) {
 			super(name, obj, properties);
+
+			this.scrObject.style.top = properties.top;
+			this.scrObject.style.left = properties.left;
 		}
 
 		set position(pos) {
@@ -64,6 +53,9 @@ const Resizable = (Base) =>
 	class extends Base {
 		constructor(name, obj, properties) {
 			super(name, obj, properties);
+
+			this.scrObject.style.width = properties.width;
+			this.scrObject.style.height = properties.height;
 		}
 
 		set size(s) {

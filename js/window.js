@@ -1,11 +1,11 @@
 window.onload = (() => {
 	let homeWindowElem = document.getElementById('home-window');
-	let winprop = new PositionProperties(
-		(parseInt(window.innerWidth * 0.8)) + "px",
-		(parseInt(window.innerHeight * 0.9)) + "px",
-		(parseInt(window.innerHeight * 0.05)) + "px",
-		(parseInt(window.innerWidth * 0.10)) + "px"
-	);
+	let winprop = {
+		width: (parseInt(window.innerWidth * 0.8)) + "px",
+		height: (parseInt(window.innerHeight * 0.9)) + "px",
+		top: (parseInt(window.innerHeight * 0.05)) + "px",
+		left: (parseInt(window.innerWidth * 0.10)) + "px"
+	};
 
 	setupPicture();
 	let homeWindow = setupWindow("home-window", false, homeWindowElem, winprop);
