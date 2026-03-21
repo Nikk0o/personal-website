@@ -132,7 +132,7 @@ function enableDragElement(element, dragTarget, snapAreaElem) {
 
 		let targetName = dragTarget.name;
 		if (dragging) {
-			dragTarget.lastProperties = dragTarget.properties;
+			dragTarget.updateOldProperties();
 		}
 
 		dragging = false;
@@ -220,16 +220,12 @@ function snapWindowTo(windowObj, whereTo) {
 
 function toggleFullscreen(winObj) {
 	if (winObj.state == 'windowed') {
-		winObj.lastProperties = winObj.properties;
-		console.log(winObj.lastProperties);
+		winObj.updateOldProperties();
 		snapWindowTo(winObj, 't');
-		console.log(winObj.properties)
 	}
 	else if (winObj.state == 'fullscreen'){
-		console.log(winObj.lastProperties);
 		winObj.restoreOldProperties();
 		winObj.state = 'windowed';
-		console.log(winObj.properties)
 	}
 }
 

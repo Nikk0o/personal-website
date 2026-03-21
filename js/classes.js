@@ -121,6 +121,10 @@ class PseudoWindow extends Movable(Resizable(ScreenItem)) {
 		}
 	}
 
+	updateOldProperties() {
+		this.lastProps = this.properties;
+	}
+
 	restoreOldProperties() {
 		this.position = {
 			x: this.lastProps.left.replace('px', ''),
