@@ -15,6 +15,9 @@ window.onload = (() => {
 		},
 		document.getElementById('home-window')
 	);
+
+	document.getElementById('top-bar').addEventListener("dblclick",
+		() => { toggleFullscreen(document.getElementById("home-window")); });
 });
 
 
@@ -210,23 +213,19 @@ function snapWindowTo(windowObj, whereTo) {
 	}
 };
 
-document.getElementById('top-bar').ondblclick = function() {
+function toggleFullscreen(winObj) {
 	if (fullscreen == false) {
-		snapWindowTo(document.getElementById('home-window'), 't');
+		snapWindowTo(winObj, 't');
 	}
 	else {
-		let win = document.getElementById('home-window');
-
-		win.style.width = lastWindowProperties.width;
-		win.style.height = lastWindowProperties.height;
-		win.style.top = lastWindowProperties.top;
-		win.style.left = lastWindowProperties.left;
-
-		console.log(lastWindowProperties);
+		winObj.style.width = lastWindowProperties.width;
+		winObj.style.height = lastWindowProperties.height;
+		winObj.style.top = lastWindowProperties.top;
+		winObj.style.left = lastWindowProperties.left;
 
 		fullscreen = false;
 	}
-};
+}
 
 
 // Resize window with cursor
