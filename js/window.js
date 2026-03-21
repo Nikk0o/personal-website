@@ -1,7 +1,16 @@
 window.onload = (() => {
+	let homeWindowElem = document.getElementById('home-window');
+	let winprop = new PositionProperties(
+		(parseInt(window.innerWidth * 0.8)) + "px",
+		(parseInt(window.innerHeight * 0.9)) + "px",
+		(parseInt(window.innerHeight * 0.05)) + "px",
+		(parseInt(window.innerWidth * 0.10)) + "px"
+	);
+
 	setupPicture();
-	setupWindow();
-	enableDragElement(document.getElementById('top-bar'), document.getElementById('snap-box'));
+	let homeWindow = setupWindow("home-window", false, homeWindowElem, winprop);
+
+	enableDragElement(document.getElementById('top-bar'), homeWindow, document.getElementById('snap-box'));
 	enableResizing(
 		{
 			topLeft: document.getElementById('res-tl'),
@@ -13,13 +22,17 @@ window.onload = (() => {
 			bottomLeft: document.getElementById('res-bl'),
 			leftCenter: document.getElementById('res-lc')
 		},
-		document.getElementById('home-window')
+		homeWindow
 	);
 
 	document.getElementById('top-bar').addEventListener("dblclick",
-		() => { toggleFullscreen(document.getElementById("home-window")); });
+		() => { toggleFullscreen(homeWindow); });
+
+	homeWindow.show();
 });
 
+
+var windows = [];
 
 // Set pictures
 
@@ -49,13 +62,14 @@ function setupPicture() {
 
 // Set window initial position and dimensions
 
-function setupWindow() {
-	let win = document.getElementById('home-window');
+function setupWindow(windowName, fullscreen, element, properties) {
+	let state = fullscreen ? 'fullscreen' : 'windowed';
 
-	win.style.top = (parseInt(window.innerHeight * 0.05)) + "px";
-	win.style.left = (parseInt(window.innerWidth * 0.10)) + "px";
-	win.style.width = (parseInt(window.innerWidth * 0.8)) + "px";
-	win.style.height = (parseInt(window.innerHeight * 0.9)) + "px";
+	let win = new PseudoWindow(windowName, element, properties);
+	win.state = state;
+
+	windows.push(win);
+	return win;
 }
 
 
@@ -64,37 +78,31 @@ function setupWindow() {
 var dragging = false;
 var selectedSnapArea = null;
 
-function enableDragElement(element, snapAreaElem) {
+function enableDragElement(element, dragTarget, snapAreaElem) {
 
 	// The last position and mouse displacement, in pixels
 	let pos0 = {x: 0, y: 0};
 	let dpos = {dx: 0, dy: 0};
 
-	let prnt = element.parentNode;
 	element.addEventListener("mousedown", onMouseDown);
 
 	function onMouseDown(ev) {
-		ev = ev || window.event;
+		ev.preventDefault();
 
 		pos0 = {x: ev.clientX, y: ev.clientY};
+
 		document.addEventListener("mousemove", dragElement);
 		document.addEventListener("mouseup", stopDrag);
 	}
 
 	function dragElement(ev) {
-		fullscreen = false;
 		dragging = true;
-
-		ev = ev || window.event;
+		dragTarget.onDrag();
 
 		dpos = {dx: pos0.x - ev.clientX, dy: pos0.y - ev.clientY};
 		pos0 = {x: ev.clientX, y: ev.clientY};
 
-		let styleTop = prnt.style.top.replace('px', '');
-		let styleLeft = prnt.style.left.replace('px', '');
-
-		prnt.style.top = (styleTop - dpos.dy) + "px";
-		prnt.style.left = (styleLeft - dpos.dx) + "px";
+		dragTarget.move(dpos);
 
 		if (pos0.x >= window.innerWidth * (0.9)) {
 			showSnapArea(snapAreaElem, 'r');
@@ -122,21 +130,15 @@ function enableDragElement(element, snapAreaElem) {
 		document.removeEventListener("mouseup", stopDrag);
 		hideSnapArea(snapAreaElem);
 
-		let windowObj = document.getElementById('home-window');
+		let targetName = dragTarget.name;
 		if (dragging) {
-			lastWindowProperties = {
-				width: windowObj.style.width,
-				height: windowObj.style.height,
-				top: windowObj.style.top,
-				left: windowObj.style.left
-			};
+			dragTarget.lastProperties = dragTarget.properties;
 		}
 
 		dragging = false;
 
 		if (selectedSnapArea) {
-			snapWindowTo(windowObj, selectedSnapArea);
-
+			snapWindowTo(dragTarget, selectedSnapArea);
 			selectedSnapArea = null;
 		}
 	}
@@ -144,9 +146,6 @@ function enableDragElement(element, snapAreaElem) {
 
 
 // Enable window snapping
-
-var fullscreen = false;
-var lastWindowProperties = null;
 
 function showSnapArea(areaElement, where) {
 	areaElement.style.display = 'block';
@@ -181,49 +180,56 @@ function hideSnapArea(areaElement) {
 };
 
 function snapWindowTo(windowObj, whereTo) {
-	lastWindowProperties = {
-		width: windowObj.style.width,
-		height: windowObj.style.height,
-		top: windowObj.style.top,
-		left: windowObj.style.left
-	};
-
 	switch(whereTo) {
 		case 't':
-			windowObj.style.width = `${parseInt(0.98*window.innerWidth)}px`;
-			windowObj.style.height = `${parseInt(0.98*window.innerHeight)}px`;
+			windowObj.size = {
+				x: parseInt(0.98*window.innerWidth),
+				y: parseInt(0.98*window.innerHeight)
+			};
 
-			windowObj.style.top = "0px";
-			windowObj.style.left = `${parseInt(window.innerWidth * 0.005)}px`;
-			fullscreen = true;
+			windowObj.position = {
+				x: parseInt(window.innerWidth * 0.005),
+				y: 0
+			};
+
+			windowObj.state = 'fullscreen';
 			break;
 		case 'r':
-			windowObj.style.width = `${parseInt(0.49*window.innerWidth)}px`;
-			windowObj.style.height = `${parseInt(0.98*window.innerHeight)}px`;
+			windowObj.size = {
+				x: parseInt(0.49*window.innerWidth),
+				y: parseInt(0.98*window.innerHeight)
+			};
 
-			windowObj.style.top = "0px";
-			windowObj.style.left = `${parseInt(window.innerWidth / 2)}px`;
+			windowObj.position = {
+				x: parseInt(window.innerWidth / 2),
+				y: 0
+			};
 			break;
 		case 'l':
-			windowObj.style.width = `${parseInt(0.5*window.innerWidth)}px`;
-			windowObj.style.height = `${parseInt(0.98*window.innerHeight)}px`;
+			windowObj.size = {
+				x: parseInt(0.5*window.innerWidth),
+				y: parseInt(0.98*window.innerHeight)
+			};
 
-			windowObj.style.top = "0px";
-			windowObj.style.left = "0px";
+			windowObj.position = {
+				x: 0,
+				y: 0
+			};
 	}
 };
 
 function toggleFullscreen(winObj) {
-	if (fullscreen == false) {
+	if (winObj.state == 'windowed') {
+		winObj.lastProperties = winObj.properties;
+		console.log(winObj.lastProperties);
 		snapWindowTo(winObj, 't');
+		console.log(winObj.properties)
 	}
-	else {
-		winObj.style.width = lastWindowProperties.width;
-		winObj.style.height = lastWindowProperties.height;
-		winObj.style.top = lastWindowProperties.top;
-		winObj.style.left = lastWindowProperties.left;
-
-		fullscreen = false;
+	else if (winObj.state == 'fullscreen'){
+		console.log(winObj.lastProperties);
+		winObj.restoreOldProperties();
+		winObj.state = 'windowed';
+		console.log(winObj.properties)
 	}
 }
 
@@ -244,6 +250,8 @@ function enableResizing(elements, resizeTarget) {
 	elements.leftCenter.addEventListener("mousedown", ((ev) => onMouseDown('lc', ev)));
 
 	function onMouseDown(direction, ev) {
+		ev.preventDefault();
+
 		pos0 = { x: ev.clientX, y: ev.clientY };
 		dpos = { dx: 0, dy: 0};
 
@@ -283,42 +291,36 @@ function enableResizing(elements, resizeTarget) {
 	}
 
 	function updateMousePos(ev) {
-		dpos = { dx: ev.clientX - pos0.x, dy: ev.clientY - pos0.y };
+		dpos = { dx: pos0.x - ev.clientX, dy: pos0.y - ev.clientY };
 		pos0 = { x: ev.clientX, y: ev.clientY };
 
-		fullscreen = false;
+		resizeTarget.onResize();
 	}
 
 	function changeWidth(invert) {
-		let width = parseInt(resizeTarget.style.width.replace('px', ''));
-		resizeTarget.style.width = (width -(invert ? -dpos.dx : dpos.dx)) + 'px';
+		resizeTarget.changeSize({dx: invert ? -dpos.dx : dpos.dx, dy: 0});
 	}
 
 	function changeHeight(invert) {
-		let height = parseInt(resizeTarget.style.height.replace('px', ''));
-		resizeTarget.style.height = (height - (invert ? -dpos.dy : dpos.dy)) + 'px';
+		resizeTarget.changeSize({dx: 0, dy: invert ? -dpos.dy : dpos.dy});
 	}
 
-	function resizeFromLeftSide(ev) {
-		let offsetLeft = parseInt(resizeTarget.style.left.replace('px', ''));
-		resizeTarget.style.left = (offsetLeft + dpos.dx) + 'px';
-
-		changeWidth(false);
-	}
-
-	function resizeFromRightSide(ev) {
+	function resizeFromLeftSide() {
+		resizeTarget.move({dx: dpos.dx, dy: 0});
 		changeWidth(true);
 	}
 
-	function resizeFromTopSide(ev) {
-		let offsetTop = parseInt(resizeTarget.style.top.replace('px', ''));
-		resizeTarget.style.top = (offsetTop + dpos.dy) + 'px';
-
-		changeHeight(false);
+	function resizeFromRightSide() {
+		changeWidth(false);
 	}
 
-	function resizeFromBottomSide(ev) {
+	function resizeFromTopSide() {
+		resizeTarget.move({dx: 0, dy: dpos.dy});
 		changeHeight(true);
+	}
+
+	function resizeFromBottomSide() {
+		changeHeight(false);
 	}
 
 	function onMouseUp() {
