@@ -105,23 +105,30 @@ function enableDragElement(element, dragTarget, snapAreaElem) {
 		dragTarget.move(dpos);
 
 		if (pos0.x >= window.innerWidth * (0.9)) {
-			showSnapArea(snapAreaElem, 'r');
+			if (selectedSnapArea != 'r')
+				showSnapArea(snapAreaElem, 'r');
+
 			selectedSnapArea = 'r';
 			return;
 		}
 		else if (pos0.x <= window.innerWidth * (0.1)) {
-			showSnapArea(snapAreaElem, 'l');
+			if (selectedSnapArea != 'l')
+				showSnapArea(snapAreaElem, 'l');
+
 			selectedSnapArea = 'l';
 			return;
 		}
 		else if (pos0.y <= window.innerHeight * (0.04)) {
-			showSnapArea(snapAreaElem, 't');
+			if (selectedSnapArea != 't')
+				showSnapArea(snapAreaElem, 't');
+
 			selectedSnapArea = 't';
 			return;
 		}
 		else {
 			hideSnapArea(snapAreaElem);
 			selectedSnapArea = null;
+			snapAreaKeyframes = [];
 		}
 	}
 
@@ -147,75 +154,160 @@ function enableDragElement(element, dragTarget, snapAreaElem) {
 
 // Enable window snapping
 
+var snapAreaKeyframes = [];
+
 function showSnapArea(areaElement, where) {
 	areaElement.style.display = 'block';
 
+	if (snapAreaKeyframes.length > 1)
+		snapAreaKeyframes.pop(0);
+
 	switch(where) {
 		case 't':
-			areaElement.style.width = '100%';
-			areaElement.style.height = '100%';
+			if (snapAreaKeyframes.length == 0) {
+				snapAreaKeyframes.push({
+					top: "0%",
+					left: "50%",
+					width: "0%",
+					height: "0%"
+				});
+			}
 
-			areaElement.style.top = '0px';
-			areaElement.style.bottom = '';
+			snapAreaKeyframes.push({
+				top: "0%",
+				left: "0%",
+				width: "100%",
+				height: "100%"
+			});
 			break;
 		case 'r':
-			areaElement.style.width = '20%';
-			areaElement.style.height = '100%';
+			if (snapAreaKeyframes.length == 0) {
+				snapAreaKeyframes.push({
+					top: "50%",
+					right: "0%",
+					left: "100%",
+					width: "0%",
+					height: "0%"
+				});
+			}
 
-			areaElement.style.right = '0px';
-			areaElement.style.left = '';
+			snapAreaKeyframes.push({
+				top: "0%",
+				right: "0%",
+				left: "auto",
+				width: "20%",
+				height: "100%"
+			});
 			break;
 		case 'l':
-			areaElement.style.width = '20%';
-			areaElement.style.height = '100%';
+			if (snapAreaKeyframes.length == 0) {
+				snapAreaKeyframes.push({
+					top: "50%",
+					left: "0%",
+					right: "100%",
+					width: "0%",
+					height: "0%"
+				});
+			}
 
-			areaElement.style.right = '';
-			areaElement.style.left = '0px';
+			snapAreaKeyframes.push({
+				top: "0%",
+				left: "0%",
+				right: "auto",
+				width: "20%",
+				height: "100%"
+			});
 			break;
 	}
+
+	anim = areaElement.animate(snapAreaKeyframes, 300);
+	anim.addEventListener("finish", () => {
+		let lastFrame = snapAreaKeyframes.at(-1);
+		if (lastFrame) {
+			areaElement.style.top = lastFrame.top;
+			areaElement.style.left = lastFrame.left;
+			areaElement.style.right = lastFrame.right;
+			areaElement.style.width = lastFrame.width;
+			areaElement.style.height = lastFrame.height;
+		}
+	});
 };
 
 function hideSnapArea(areaElement) {
 	areaElement.style.display = 'none';
 };
 
+function animateWindowSnap(windowObj, finalShape, duration, fs) {
+	var currProps = windowObj.properties;
+
+	let snapKeyfs = [
+		{
+			top: currProps.top,
+			left: currProps.left,
+			width: currProps.width,
+			height: currProps.height,
+
+			easing: "ease-out"
+		},
+		{
+			top: finalShape.top + "px",
+			left: finalShape.left + "px",
+			width: finalShape.width + "px",
+			height: finalShape.height + "px",
+
+			easing: "ease-in"
+		}
+	];
+
+	windowObj.setAnimation(snapKeyfs, duration, (winObj) => {
+		winObj.position = {
+			x: finalShape.left,
+			y: finalShape.top
+		};
+
+		winObj.size = {
+			x: finalShape.width,
+			y: finalShape.height
+		};
+
+		if (fs)
+			winObj.state = "fullscreen";
+		else
+			winObj.state = "windowed";
+	});
+} 
+
 function snapWindowTo(windowObj, whereTo) {
+	let finalShape = null;
+	let fullscreen = whereTo == 't';
+
 	switch(whereTo) {
 		case 't':
-			windowObj.size = {
-				x: parseInt(0.98*window.innerWidth),
-				y: parseInt(0.98*window.innerHeight)
+			finalShape = {
+				width: parseInt(0.98*window.innerWidth),
+				height: parseInt(0.98*window.innerHeight),
+				left: parseInt(window.innerWidth * 0.005),
+				top: 0
 			};
-
-			windowObj.position = {
-				x: parseInt(window.innerWidth * 0.005),
-				y: 0
-			};
-
-			windowObj.state = 'fullscreen';
 			break;
 		case 'r':
-			windowObj.size = {
-				x: parseInt(0.49*window.innerWidth),
-				y: parseInt(0.98*window.innerHeight)
-			};
-
-			windowObj.position = {
-				x: parseInt(window.innerWidth / 2),
-				y: 0
+			finalShape = {
+				width: parseInt(0.49*window.innerWidth),
+				height: parseInt(0.98*window.innerHeight),
+				left: parseInt(window.innerWidth / 2),
+				top: 0
 			};
 			break;
 		case 'l':
-			windowObj.size = {
-				x: parseInt(0.5*window.innerWidth),
-				y: parseInt(0.98*window.innerHeight)
-			};
-
-			windowObj.position = {
-				x: 0,
-				y: 0
+			finalShape = {
+				width: parseInt(0.5*window.innerWidth),
+				height: parseInt(0.98*window.innerHeight),
+				left: 0,
+				top: 0
 			};
 	}
+
+	animateWindowSnap(windowObj, finalShape, 230, fullscreen);
 };
 
 function toggleFullscreen(winObj) {

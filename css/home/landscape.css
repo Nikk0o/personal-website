@@ -157,4 +157,6 @@ html {
 
 	border: 5px solid #0070700c;
 	background-color: #00ffff20;
+
+	animation-fill-mode: forwards;
 }

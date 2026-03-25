@@ -136,4 +136,12 @@ class PseudoWindow extends Movable(Resizable(ScreenItem)) {
 	onResize() {
 		this.state = 'windowed';
 	}
+
+	setAnimation(keyframes, duration, afterFinish) {
+		anim = this.scrObject.animate(keyframes, duration);
+		anim.addEventListener("finish", () => {
+			if (afterFinish)
+				afterFinish(this);
+		});
+	}
 }
