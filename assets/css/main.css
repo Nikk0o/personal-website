@@ -54,11 +54,20 @@ body {
 	text-align: center;
 }
 
-.header a:hover {
+.header > a:hover {
 	filter: invert(100%);
 }
 
 #exit-button {
 	margin-left: 10px;
 	margin-right: auto;
+}
+
+#exit-button nav {
+	position: absolute;
+
+	width: 100%;
+
+	top: 100%;
+	background-color: red;
 }

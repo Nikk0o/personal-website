@@ -1,0 +1,5 @@
+<nav>
+	{% for door in page.doors %}
+		<li><a href="{{ door.href }}">{{ door.name }}</a></li>
+	{% endfor %}
+</nav>

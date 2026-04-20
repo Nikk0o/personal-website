@@ -6,8 +6,6 @@ source: .
 destination  : ./_site
 layouts_dir  : _layouts
 includes_dir : _includes
-sass:
-  sass_dir   : _sass
 
 exclude:
   - .sass-cache/
