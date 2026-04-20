@@ -19,7 +19,10 @@
 					];
 				};
 
-				packages.x86_64-linux.default = server;
+				apps.default = {
+					type = "app";
+					program = "${server}/run.sh";
+				};
 			}
 		);
 }

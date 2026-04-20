@@ -1,15 +1,15 @@
 { pkgs ? import <nixpkgs> {}, ... }:
 	pkgs.stdenv.mkDerivation {
-		name = "Niko's personal website";
+		name = "Niko personal website";
 		src = ./.;
 
-		buildInputs = with pkgs; [ jekyll bundler ];
-		buildPhase = ''
-			jekyll build
-		'';
+		dontUnpack = true;
 
 		installPhase = ''
-			mv ./_site/* $out
-			jekyll serve -d $out -p 4000
+			mkdir $out
+			mv ./* $out
+
+			echo -e "#!bash\n ${pkgs.jekyll}/bin/jekyll serve -s $out --port 4000" > $out/run.sh
+			chmod +777 $out/run.sh
 		'';
 	}
