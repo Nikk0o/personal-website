@@ -1,63 +1,19 @@
+---
+title: Void
+---
+
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="./css/shared.css">
-		<link rel="stylesheet" media="(orientation: landscape)" href="./css/home/landscape.css">
-		<link rel="stylesheet" media="(orientation: portrait)" href="./css/home/portrait.css">
-
-		<link rel="icon" type="image/x-icon" href="">
-
-		<script type="text/javascript" defer src="./js/classes.js"></script>
-		<script type="text/javascript" defer src="./js/window.js"></script>
+		<title>{{ page.title }}</title>
+		<link rel="stylesheet" href="/assets/css/void.css">
 	</head>
 	<body>
-		<div id="bg"></div>
-
-		<div id="snap-box"></div>
-
-		<div id="site-body">
-			<div id="home-window" class="box">
-				<div class="resize-box">
-					<div class="resize-select" id="res-tl"></div>
-					<div class="resize-select" id="res-tc"></div>
-					<div class="resize-select" id="res-tr"></div>
-					<div class="resize-select" id="res-rc"></div>
-					<div class="resize-select" id="res-br"></div>
-					<div class="resize-select" id="res-bc"></div>
-					<div class="resize-select" id="res-bl"></div>
-					<div class="resize-select" id="res-lc"></div>
-				</div>
-
-				<div id="top-bar"></div>
-
-				<div id="content-area">
-					<div id="side-bar">
-						<div id="menu">
-							<div id="niko-pic" class="pic-border">
-								<img id="pic-pic">
-								<div id="highlight"></div>
-							</div>
-
-							<a href="#Sobre">Sobre</a>
-							<a href="#Interesses">Interesses</a>
-							<a href="#sla">sla</a>
-						</div>
-
-						<div id="copyright">
-							Copyright eu
-						</div>
-					</div>
-
-					<div id="content">
-						<h1 id="Sobre">Sobre mim</h1>
-							<p>Sou Niko eu faço coisas c:</p>
-						<h1 id="Interesses">Interesses</h1>
-							<p>Eu gosto de coisas c:</p>
-						<h1 id="sla">sla</h1>
-							<p>sla :(</p>
-					</div>
-				</div>
-			</div>
-		</div>
+		<nav class="index-nav">
+			<a class="index-a" href="/home">Home</a>
+			<a class="index-a" href="/art">Gallery</a>
+			<a class="index-a" href="/blog">Blog</a>
+		</nav>
+		<div id="copyright">Nikoneko 2026</div>
 	</body>
 </html>

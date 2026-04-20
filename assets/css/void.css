@@ -1,0 +1,54 @@
+@import "variables.css";
+
+body {
+	margin: none;
+
+	color: var(--text-color);
+	background-color: var(--bg-color);
+	font-family: "Courier New", Helvetica, monospace;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	height: 100vh;
+
+	overflow: hidden;
+}
+
+.index-nav {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	width: 100vw;
+}
+
+.index-a {
+	color: var(--text-color);
+	text-decoration: none;
+
+	display: block;
+	width: 300px;
+
+	text-align: center;
+}
+
+.index-a:hover {
+	backdrop-filter: invert(10%);
+}
+
+#copyright {
+	position: absolute;
+	margin-top: 130px;
+
+	filter: opacity(50%);
+}
+
+.theme-choose {
+	position: fixed;
+	top: 50px;
+	left: 50px;
+}

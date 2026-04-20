@@ -1,0 +1,26 @@
+baseurl: ""
+url: "http://leksu.sh"
+
+# Site structure
+source: .
+destination  : ./_site
+layouts_dir  : _layouts
+includes_dir : _includes
+sass:
+  sass_dir   : _sass
+
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - flake.nix
+  - flake.lock
+  - .git/
+  - .site/

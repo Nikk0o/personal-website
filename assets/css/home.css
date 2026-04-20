@@ -1,0 +1,12 @@
+@import "variables.css";
+
+.header img {
+	filter: grayscale(100%) contrast(200%);
+	object-fit: cover;
+	height: 150px;
+	width: 100%;
+}
+
+pre {
+	white-space: pre-wrap;
+}

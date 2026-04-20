@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+	<head>
+		<title>{{ page.title }}</title>
+		<link rel="stylesheet" href="/assets/css/main.css">
+		<link rel="stylesheet" href="/assets/css/{{ page.style }}">
+		<link rel="icon" type="image/x-icon" href="/assets/images/{{ page.icon }}">
+	</head>
+	<body>
+		<div class="contents">
+			<div class="header">
+				<img src="/assets/images/{{ page.header-img }}">
+				<nav>
+					<a href="/" id="exit-button">Exit</a>
+					{% for section in page.sections %}
+						<a href="{{ section.href }}">{{ section.name }}</a>
+					{% endfor %}
+				</nav>
+			</div>
+			{{ content }}
+		</div>
+	</body>
+</html>

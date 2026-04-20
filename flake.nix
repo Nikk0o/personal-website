@@ -10,14 +10,16 @@
 		flake-utils.lib.eachDefaultSystem
 		(system:
 			let pkgs = nixpkgs.legacyPackages.${system};
+			    server = import ./default.nix { pkgs = pkgs; };
 			in
 			{
-				apps = {
-					serve = {
-						type = "app";
-						program = "";
-					};
+				devShells.default = pkgs.mkShellNoCC {
+					packages = with pkgs; [
+						nodejs
+					];
 				};
+
+				packages.x86_64-linux.default = server;
 			}
 		);
 }

@@ -1,0 +1,25 @@
+@import "variables.css";
+
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	margin: 0px;
+	background-color: black;
+
+	height: 100vh;
+
+	color: var(--text-color);
+	font-family: "Courier New", Helvetica, monospace;
+}
+
+a {
+	color: inherit;
+	font-family: inherit;
+
+	text-decoration: underline;
+
+	font-size: 0.7em;
+}
