@@ -1,4 +1,4 @@
-import { showExitDropdown, enableExit } from "./exitDropdown.js"
+import { enableExit } from "./exitDropdown.js";
 
 window.onload = () => {
 	let exitButton = document.getElementById("exit-button"),

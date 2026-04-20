@@ -5,17 +5,14 @@
 		<link rel="stylesheet" href="/assets/css/main.css">
 		<link rel="stylesheet" href="/assets/css/{{ page.style }}">
 		<link rel="icon" type="image/x-icon" href="/assets/images/{{ page.icon }}">
-		<script src="/scripts/main.js"></script>
 	</head>
 	<body>
 		<div class="contents">
 			<div class="header">
 				<img src="/assets/images/{{ page.header-img }}">
 				<nav>
-					<div id="exit-button">
-						Exia
-						{% include exitDropdown.html %}
-					</div>
+					{% include exitDropdown.html %}
+
 					{% for section in page.sections %}
 						<a href="{{ section.href }}">{{ section.name }}</a>
 					{% endfor %}

@@ -18,7 +18,4 @@ exclude:
   - vendor/cache/
   - vendor/gems/
   - vendor/ruby/
-  - flake.nix
-  - flake.lock
-  - .git/
-  - .site/
+  - _site/

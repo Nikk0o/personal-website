@@ -13,16 +13,13 @@
 			    server = import ./default.nix { pkgs = pkgs; };
 			in
 			{
-				devShells.default = pkgs.mkShellNoCC {
-					packages = with pkgs; [
-						nodejs
-					];
-				};
 
 				apps.default = {
 					type = "app";
-					program = "${server}/run.sh";
+					program = "${server}/bin/run";
 				};
+
+				packages.default = server;
 			}
 		);
 }

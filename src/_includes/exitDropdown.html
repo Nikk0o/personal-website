@@ -1,5 +1,12 @@
-<nav id="doors">
-	{% for door in page.doors %}
-		<li><a href="{{ door.href }}">{{ door.name }}</a></li>
-	{% endfor %}
-</nav>
+<div id="exit-button">
+	Exit
+	<div class="doors">
+		<a href="/" class="door">Void</a>
+
+		{% for door in page.doors %}
+			<a href="{{ door.href }}" class="door">
+				{{ door.name }}
+			</a>
+		{% endfor %}
+	</div>
+</div>
