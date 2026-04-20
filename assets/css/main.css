@@ -54,7 +54,7 @@ body {
 	text-align: center;
 }
 
-.header > a:hover {
+.header > *:hover {
 	filter: invert(100%);
 }
 
