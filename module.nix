@@ -14,6 +14,11 @@ in
 			default = 4000;
 		};
 
+		domain = lib.mkIf cfg.enable {
+			type = types.str;
+			default = "leksu.sh";
+		};
+
 		galleryPath = lib.mkIf cfg.enable {
 			type = types.path;
 			default = /srv/art;
@@ -22,22 +27,28 @@ in
 	};
 
 	config =
-		let sitepkg = pkgs.callPackage ./package.nix { };
-		in
-			lib.mkIf cfg.enable {
-				environment.systemPackages = [
-					sitepkg
-				];
+	let srvpkg = pkgs.callPackage ./package.nix { };
+	in
+		lib.mkIf cfg.enable {
+			environment.systemPackages = [
+				sitepkg
+			];
 
-				systemd.sevices."serve-leksu.sh" = {
-					enable = true;
-					description = "Will serve with jekyll.";
+			systemd.sevices.${domain} = {
+				enable = true;
+				description = "Will serve with jekyll.";
 
-					serviceConfig = {
-						Type = "exec";
-						ExecStart =
-							"jekyll serve -p ${cfg.port} --destination ${sitepkg} --skip-initial-build";
-					};
+				serviceConfig = {
+					Type = "exec";
+					ExecStart =
+						"jekyll serve -p ${cfg.port} --destination ${srvpkg} --skip-initial-build";
 				};
 			};
+
+			services.nginx.virtualHosts.${domain} = {
+				locations."/" = {
+					proxyPass = "http://localhost:${cfg.port}";
+				};
+			};
+		};
 }

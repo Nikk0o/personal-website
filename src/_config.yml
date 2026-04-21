@@ -1,5 +1,5 @@
 baseurl: ""
-url: "http://leksu.sh"
+url: "http://localhost"
 
 # Site structure
 source: .
@@ -19,3 +19,4 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
   - _site/
+  - templates/

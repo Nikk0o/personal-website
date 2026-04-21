@@ -1,0 +1,21 @@
+-
+  name: void
+  permalink: ""
+  file: true
+
+-
+  name: home
+  permalink: "home/"
+  file: true
+  doors:
+    - {name: Gallery, href: "/art"}
+
+- name: gallery
+  permalink: "art/"
+  file: true
+  doors:
+    - {name: Home, href: "/home"}
+
+- name: blog
+  permalink: "blog/"
+  file: true

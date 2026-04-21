@@ -1,10 +1,10 @@
 <div id="exit-button">
 	Exit
 	<div class="doors">
-		<a href="/" class="door">Void</a>
+		<a href="/{{ page.lang }}" class="door">Void</a>
 
 		{% for door in page.doors %}
-			<a href="{{ door.href }}" class="door">
+			<a href="/{{ page.lang }}{{ door.href }}" class="door">
 				{{ door.name }}
 			</a>
 		{% endfor %}

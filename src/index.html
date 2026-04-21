@@ -1,19 +1,8 @@
----
-title: Void
----
+<!doctype html>
+<script>
+	const lang = window.navigator.language,
+		  path = window.pathname
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>{{ page.title }}</title>
-		<link rel="stylesheet" href="/assets/css/void.css">
-	</head>
-	<body>
-		<nav class="index-nav">
-			<a class="index-a" href="/home">Home</a>
-			<a class="index-a" href="/art">Gallery</a>
-			<a class="index-a" href="/blog">Blog</a>
-		</nav>
-		<div id="copyright">Nikoneko 2026</div>
-	</body>
-</html>
+	var langOnly = lang.split('-')[0]
+	window.location.replace('/' + langOnly + (path ? path : ""))
+</script>
