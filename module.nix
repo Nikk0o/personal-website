@@ -7,23 +7,24 @@ in
 	imports = [];
 
 	options = {
-		enable = lib.mkEnableOption "Run the server.";
+		leksush = {
+			enable = lib.mkEnableOption "Run the server.";
 
-		port = lib.mkIf cfg.enable {
-			type = types.int;
-			default = 4000;
+			port = lib.mkIf cfg.enable {
+				type = types.int;
+				default = 4000;
+			};
+
+			domain = lib.mkIf cfg.enable {
+				type = types.str;
+				default = "leksu.sh";
+			};
+
+			galleryPath = lib.mkIf cfg.enable {
+				type = types.path;
+				default = /srv/art;
+			};
 		};
-
-		domain = lib.mkIf cfg.enable {
-			type = types.str;
-			default = "leksu.sh";
-		};
-
-		galleryPath = lib.mkIf cfg.enable {
-			type = types.path;
-			default = /srv/art;
-		};
-
 	};
 
 	config =
@@ -46,8 +47,9 @@ in
 			};
 
 			services.nginx.virtualHosts.${domain} = {
-				locations."/" = {
-					proxyPass = "http://localhost:${cfg.port}";
+				locations = {
+					"/".proxyPass = "http://localhost:${cfg.port}";
+					"/arts".alias = cfg.galleryPath;
 				};
 			};
 		};
