@@ -1,6 +1,5 @@
-{ config, pkgs, ... }:
-let lib = pkgs.lib;
-    cfg = config.module;
+{ config, pkgs, lib, ... }:
+let cfg = config.leksush;
 		types = lib.types;
 in
 {
@@ -10,17 +9,17 @@ in
 		leksush = {
 			enable = lib.mkEnableOption "Run the server.";
 
-			port = lib.mkIf cfg.enable {
+			port = lib.mkOption {
 				type = types.int;
 				default = 4000;
 			};
 
-			domain = lib.mkIf cfg.enable {
+			domain = lib.mkOption {
 				type = types.str;
 				default = "leksu.sh";
 			};
 
-			galleryPath = lib.mkIf cfg.enable {
+			galleryPath = lib.mkOption {
 				type = types.path;
 				default = /srv/art;
 			};
@@ -28,29 +27,21 @@ in
 	};
 
 	config =
-	let srvpkg = pkgs.callPackage ./package.nix { };
+	let srvpkg = pkgs.callPackage ./default.nix { };
 	in
 		lib.mkIf cfg.enable {
 			environment.systemPackages = [
-				sitepkg
+				srvpkg
 			];
 
-			systemd.sevices.${domain} = {
-				enable = true;
-				description = "Will serve with jekyll.";
-
-				serviceConfig = {
-					Type = "exec";
-					ExecStart =
-						"jekyll serve -p ${cfg.port} --destination ${srvpkg} --skip-initial-build";
-				};
-			};
-
-			services.nginx.virtualHosts.${domain} = {
+			services.nginx.virtualHosts.${cfg.domain} = {
 				locations = {
-					"/".proxyPass = "http://localhost:${cfg.port}";
-					"/arts".alias = cfg.galleryPath;
+					"/" = {
+						root = "${srvpkg}";
+					};
 				};
 			};
+
+			networking.firewall.allowedTCPPorts = [ cfg.port ];
 		};
 }

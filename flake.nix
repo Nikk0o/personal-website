@@ -7,11 +7,11 @@
 	};
 
 	outputs = { self, nixpkgs, flake-utils }@inputs:
-		flake-utils.lib.eachDefaultSystem
-		(system:
+		flake-utils.lib.eachDefaultSystem (system:
 			let pkgs = nixpkgs.legacyPackages.${system};
-			    srvpkg =
-						(pkgs.callPackage ./default.nix {}).overrideAttrs (final: prev:
+					srvpkg = pkgs.callPackage ./default.nix {};
+			    srvapp =
+						srvpkg.overrideAttrs (final: prev:
 							{ installPhase = prev.installPhase + ''
 
 mkdir $out/bin
@@ -21,11 +21,15 @@ chmod +777 $out/bin/run'';
 						);
 			in
 			{
-				# For testing locally
-				apps.default = {
-					type = "app";
-					program = "${srvpkg}/bin/run";
+				apps = {
+					default = {
+						type = "app";
+						program = "${srvapp}/bin/run";
+					};
 				};
-			}
-		);
+
+			}) // rec {
+				nixosModules.leksush = import ./module.nix;
+				nixosModules.default = nixosModules.leksush;
+			};
 }
