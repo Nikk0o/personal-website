@@ -15,9 +15,5 @@ in
 		installPhase = ''
 			mkdir $out -p
 			cp ./_site/* $out -r
-
-			mkdir $out/bin
-			echo -e "#!/bin/bash\n${jekyll}/bin/jekyll serve --destination $out --port 4000 --skip-initial-build" > $out/bin/run
-			chmod +777 $out/bin/run
 		'';
 	}
