@@ -8,13 +8,13 @@
   permalink: "home/"
   file: true
   doors:
-    - {name: Gallery, href: "/gallery"}
+    - {name: "gallery", href: "/gallery"}
 
 - name: gallery
   permalink: "gallery/"
   file: true
   doors:
-    - {name: Home, href: "/home"}
+    - {name: home, href: "/home"}
 
 - name: blog
   permalink: "blog/"

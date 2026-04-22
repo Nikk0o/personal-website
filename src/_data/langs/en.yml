@@ -1,6 +1,14 @@
+exit: Exit
+
 void:
   title: Void
 
   home: Home
   gallery: Gallery
   blog: Blog
+
+home:
+  title: Home
+
+gallery:
+  title: Gallery

@@ -1,9 +1,9 @@
 <div id="exit-button">
-	<a href="/{{ page.lang }}" id="void-door">Exit</a>
+	<a href="/{{ page.lang }}" id="void-door">{{ site.data.langs[page.lang]["exit"] }}</a>
 	<div class="doors">
 		{% for door in page.doors %}
 			<a href="/{{ page.lang }}{{ door.href }}" class="door">
-				{{ door.name }}
+				{{ site.data.langs[page.lang][door.name].title }}
 			</a>
 		{% endfor %}
 	</div>
