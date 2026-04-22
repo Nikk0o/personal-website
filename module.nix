@@ -32,6 +32,9 @@ in
 
 			services.nginx.virtualHosts = {
 
+			/*
+				# This doesn't work for some reason,
+				# it redirects everything to /gallery/ (at least when testing with localhost)
 				"art.${cfg.domain}" = {
 					serverName = "art.${cfg.domain}";
 					root = "${srvpkg}/gallery/";
@@ -41,6 +44,7 @@ in
 					serverName = "blog.${cfg.domain}";
 					root = "${srvpkg}/blog/";
 				};
+			*/
 
 				${cfg.domain} = {
 					serverName = cfg.domain;
