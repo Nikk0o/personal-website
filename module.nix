@@ -9,11 +9,6 @@ in
 		leksush = {
 			enable = lib.mkEnableOption "Run the server.";
 
-			port = lib.mkOption {
-				type = types.int;
-				default = 4000;
-			};
-
 			domain = lib.mkOption {
 				type = types.str;
 				default = "leksu.sh";
@@ -34,14 +29,28 @@ in
 				srvpkg
 			];
 
-			services.nginx.virtualHosts.${cfg.domain} = {
-				locations = {
-					"/" = {
-						root = "${srvpkg}";
+			services.nginx.virtualHosts = {
+				${cfg.domain} = {
+					serverName = cfg.domain;
+
+					locations = {
+						"/" = {
+							root = "${srvpkg}";
+						};
+
+						"/arts/" = {
+							alias = cfg.galleryPath;
+						};
 					};
 				};
-			};
 
-			networking.firewall.allowedTCPPorts = [ cfg.port ];
+				"art.${cfg.domain}" = {
+					root = "${srvpkg}/gallery/"
+				};
+
+				"blog.${cfg.domain}" = {
+					root = "${srvpkg}/blog/";
+				};
+			};
 		};
 }

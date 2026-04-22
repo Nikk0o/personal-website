@@ -8,10 +8,10 @@
   permalink: "home/"
   file: true
   doors:
-    - {name: Gallery, href: "/art"}
+    - {name: Gallery, href: "/gallery"}
 
 - name: gallery
-  permalink: "art/"
+  permalink: "gallery/"
   file: true
   doors:
     - {name: Home, href: "/home"}

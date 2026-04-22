@@ -4,8 +4,15 @@ module Langs
       langs = site.data['langs'].keys
       siteMap = site.data['pages']
 
-      langs.each do |lang|
-        siteMap.each do |file|
+      siteMap.each do |file|
+
+        redirectPage = Jekyll::Page.new(site, ".", ".", file['name'] + ".html")
+        redirectPage.data['permalink'] = "/" + file['permalink']
+        redirectPage.data['layout'] = "redirect"
+
+        site.pages << redirectPage
+
+        langs.each do |lang|
           newPage = Jekyll::Page.new(site, ".", ".", lang + "-" + file['name'] + ".html")
           newPage.data['lang'] = lang
           newPage.data['permalink'] = "/" + lang + "/" + file['permalink']
