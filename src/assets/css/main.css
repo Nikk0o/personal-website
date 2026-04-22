@@ -43,7 +43,21 @@ body {
 	text-align: center;
 }
 
-.header nav > a:hover, .door:hover {
+#void-door {
+	display: block;
+
+	font-family: "Courier New", Helvetica, monospace;
+	font-size: 0.9em;
+	color: white;
+	text-decoration: none;
+	text-align: center;
+
+	width: 100%;
+
+	background-color: black;
+}
+
+.header nav > a:hover, .door:hover, #void-door:hover {
 	filter: invert(100%);
 }
 
