@@ -45,7 +45,7 @@ in
 				};
 
 				"art.${cfg.domain}" = {
-					root = "${srvpkg}/gallery/"
+					root = "${srvpkg}/gallery/";
 				};
 
 				"blog.${cfg.domain}" = {
