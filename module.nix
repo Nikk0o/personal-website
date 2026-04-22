@@ -25,11 +25,23 @@ in
 	let srvpkg = pkgs.callPackage ./default.nix { };
 	in
 		lib.mkIf cfg.enable {
+
 			environment.systemPackages = [
 				srvpkg
 			];
 
 			services.nginx.virtualHosts = {
+
+				"art.${cfg.domain}" = {
+					serverName = "art.${cfg.domain}";
+					root = "${srvpkg}/gallery/";
+				};
+
+				"blog.${cfg.domain}" = {
+					serverName = "blog.${cfg.domain}";
+					root = "${srvpkg}/blog/";
+				};
+
 				${cfg.domain} = {
 					serverName = cfg.domain;
 
@@ -42,14 +54,6 @@ in
 							alias = cfg.galleryPath;
 						};
 					};
-				};
-
-				"art.${cfg.domain}" = {
-					root = "${srvpkg}/gallery/";
-				};
-
-				"blog.${cfg.domain}" = {
-					root = "${srvpkg}/blog/";
 				};
 			};
 		};
