@@ -5,5 +5,5 @@
 	const path = window.location.pathname
 		  lang = window.navigator.language.split('-')[0]
 
-	window.location.pathname = lang + path
+	window.location.replace("/" + lang + path)
 </script>
