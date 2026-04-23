@@ -6,6 +6,19 @@ body {
 
 	width: 100vw;
 	height: 100vh;
+
+	display: flex;
+	align-items: center;
+}
+
+.win {
+	width: 50%;
+	height: 90%;
+
+	border: 1px solid white;
+	padding: 8px;
+
+	margin: auto;
 }
 
 .header {
@@ -23,8 +36,8 @@ body {
 	flex-wrap: wrap;
 	gap: 5px;
 
-	border-width: 1px 0px 1px 0px;
-	border-style: solid;
+	border-width: 0px 0px 1px 0px;
+	border-style: groove;
 	border-color: var(--text-color);
 }
 
@@ -34,11 +47,12 @@ body {
 	font-family: "Courier New", Helvetica, monospace;
 	font-size: 0.9em;
 
-	border: 1px outset white;
+	border: 0px solid white;
+	border-radius: 8px;
 	background-color: var(--header-bg-color);
 
-	color: var(--text-color);
-	text-decoration: none;
+	color: lightyellow;
+	text-decoration: underline;
 
 	margin-right: 2%;
 
@@ -55,11 +69,11 @@ body {
 	left: 10px;
 
 	text-align: center;
-	color: var(--text-color);
+	color: pink;
 
-	border: 1px outset white;
+	border: 0px outset white;
 
-	width: 10%;
+	width: 5%;
 	height: 20px;
 
 	text-decoration: none;
@@ -67,22 +81,18 @@ body {
 }
 
 .contents {
+	width: 50%;
+	height: 100%;
+
 	margin: auto;
 
-	width: 50%;
-	height: calc(100vh);
-
-	border: 0px 2px 2px 2px;
-	border-color: darkgray;
-	border-style: none groove none groove;
-
-	/*overflow: hidden;*/
-	overflow: scroll;
+	overflow: hidden;
+	/*overflow: scroll;*/
 }
 
 .scroll-content {
-	width: 100%;
+	width: calc(100% - 2px);
 	height: 100%;
 
-	/*overflow: scroll;*/
+	overflow: scroll;
 }

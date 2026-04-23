@@ -10,16 +10,16 @@
 	<body>
 		<script>0</script>
 		<div class="contents">
+			<!--<img class="header-img" src="/assets/images/{{ layout.header-img }}">-->
 			<div class="header">
 				<nav>
-					<a id="exit-button" href="/{{ page.lang }}/">x</a>
+					<a id="exit-button" href="/{{ page.lang }}/"><-</a>
 
 					{% for door in page.doors %}
-						<a class="a-normal" href="/{{ page.lang }}/{{ door.href }}">{{ door.name }}</a>
+						<a class="a-normal" href="/{{ page.lang }}/{{ door.href }}">> {{ door.name }}</a>
 					{% endfor %}
 				</nav>
 			</div>
-			<!--<img class="header-img" src="/assets/images/{{ layout.header-img }}">-->
 			<div class="scroll-content">
 				{{ content }}
 			</div>
