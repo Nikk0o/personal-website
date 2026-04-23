@@ -109,5 +109,5 @@ li a:hover {
 }
 
 li[data-selected="true"] a:not(:hover) {
-	filter: invert(70%);
+	text-decoration: underline;
 }
