@@ -1,6 +1,6 @@
 :root {
-	--text-color: white;
-	--bg-color: black;
+	--text-color: black;
+	--bg-color: white;
 
-	--header-bg-color: black;
+	--header-bg-color: white;
 }

@@ -12,13 +12,6 @@ pre {
 	white-space: normal;
 }
 
-.contents {
-	background-color: black;
-	color: white;
-
-	font-family: "Courier new";
-}
-
 #about-me figure {
 	max-width: 30%;
 	float: right;

@@ -6,14 +6,16 @@
 		<link rel="stylesheet" href="/assets/css/main.css">
 		<link rel="stylesheet" href="/assets/css/{{ layout.style }}">
 		<link rel="icon" type="image/x-icon" href="/assets/images/icon.ico">
+		<script type="module" src="/assets/scripts/layout.js"></script>
 	</head>
 	<body>
 		<script>0</script>
 		<div class="contents">
 			<!--<img class="header-img" src="/assets/images/{{ layout.header-img }}">-->
 			<div class="header">
+				<h1 style="font-size: 5em; text-align: center;">NIKONEKO</h1>
 				<nav>
-					<a id="exit-button" href="/{{ page.lang }}/"><-</a>
+					{% include langSelectButton.html %}
 
 					{% for door in page.doors %}
 						<a class="a-normal" href="/{{ page.lang }}/{{ door.href }}">> {{ door.name }}</a>

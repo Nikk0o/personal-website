@@ -7,11 +7,11 @@ body {
 	align-items: center;
 
 	margin: 0px;
-	background-color: black;
+	background-color: var(--bg-color);
 
 	height: 100vh;
 
-	color: white;
+	color: var(--text-color);
 	font-family: "Courier New", Helvetica, monospace;
 }
 
