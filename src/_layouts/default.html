@@ -4,23 +4,25 @@
 		<meta charset="utf-8">
 		<title>{{ page.title }}</title>
 		<link rel="stylesheet" href="/assets/css/main.css">
-		<link rel="stylesheet" href="/assets/css/{{ page.style }}">
+		<link rel="stylesheet" href="/assets/css/{{ layout.style }}">
 		<link rel="icon" type="image/x-icon" href="/assets/images/icon.ico">
 	</head>
 	<body>
 		<script>0</script>
 		<div class="contents">
 			<div class="header">
-				<img src="/assets/images/{{ page.header-img }}">
 				<nav>
-					{% include {{ page.lang }}/exitDropdown.html %}
+					<a id="exit-button" href="/{{ page.lang }}/">x</a>
 
-					{% for section in page.sections %}
-						<a href="{{ section.href }}">{{ section.name }}</a>
+					{% for door in page.doors %}
+						<a class="a-normal" href="/{{ page.lang }}/{{ door.href }}">{{ door.name }}</a>
 					{% endfor %}
 				</nav>
 			</div>
-			{{ content }}
+			<!--<img class="header-img" src="/assets/images/{{ layout.header-img }}">-->
+			<div class="scroll-content">
+				{{ content }}
+			</div>
 		</div>
 	</body>
 </html>

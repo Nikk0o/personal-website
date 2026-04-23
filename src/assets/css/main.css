@@ -18,7 +18,7 @@ body {
 	height: 30px;
 
 	display: flex;
-	justify-content: center;
+	justify-content: flex-end;
 	align-items: center;
 	flex-wrap: wrap;
 	gap: 5px;
@@ -26,11 +26,9 @@ body {
 	border-width: 1px 0px 1px 0px;
 	border-style: solid;
 	border-color: var(--text-color);
-
-	margin-top: -5px;
 }
 
-.header > nav > a, #exit-button {
+.a-normal {
 	position: relative;
 
 	font-family: "Courier New", Helvetica, monospace;
@@ -42,69 +40,49 @@ body {
 	color: var(--text-color);
 	text-decoration: none;
 
-	width: 15%;
+	margin-right: 2%;
+
+	min-width: 15%;
 	text-align: center;
 }
 
-#void-door {
-	display: block;
-
-	font-family: "Courier New", Helvetica, monospace;
-	font-size: 0.9em;
-	color: inherit;
-	text-decoration: none;
-	text-align: center;
-
-	width: 100%;
-
-	background-color: var(--header-bg-color);
-}
-
-.header nav > a:hover, .door:hover, #void-door:hover {
+.header nav > a:hover {
 	filter: invert(100%);
 }
 
 #exit-button {
-	margin-left: 10px;
-	margin-right: auto;
-}
-
-.doors {
-	flex-direction: column;
-	align-items: stretch;
-	gap: 7px;
-
-	display: none;
-
 	position: absolute;
-	top: 100%;
-	left: 0%;
+	left: 10px;
 
-	width: 100%;
-
-	background-color: var(--header-bg-color);
-}
-
-.door {
+	text-align: center;
 	color: var(--text-color);
+
+	border: 1px outset white;
+
+	width: 10%;
+	height: 20px;
+
 	text-decoration: none;
-
-	background-color: inherit;
-}
-
-#exit-button:hover > .doors {
-	display: flex;
+	background-color: var(--header-bg-color);
 }
 
 .contents {
 	margin: auto;
 
 	width: 50%;
-	height: 100%;
+	height: calc(100vh);
 
-	border: 0px 2px 0px 2px;
+	border: 0px 2px 2px 2px;
 	border-color: darkgray;
 	border-style: none groove none groove;
 
+	/*overflow: hidden;*/
 	overflow: scroll;
+}
+
+.scroll-content {
+	width: 100%;
+	height: 100%;
+
+	/*overflow: scroll;*/
 }

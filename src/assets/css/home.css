@@ -1,12 +1,39 @@
 @import "variables.css";
 
-.header img {
-	filter: grayscale(100%) contrast(200%);
+.header-img  {
+	/*filter: brightness(150%) contrast(100%) grayscale(100%);*/
 	object-fit: cover;
 	height: 150px;
 	width: 100%;
+	object-position: 0% 80%;
+
+	border-bottom: 1px solid white;
 }
 
 pre {
-	white-space: pre-wrap;
+	white-space: normal;
 }
+
+.contents {
+	background-color: black;
+	color: white;
+
+	font-family: "Courier new";
+}
+
+#about-me figure {
+	max-width: 30%;
+	float: right;
+}
+
+#about-me img {
+	width: 100%;
+}
+
+figcaption {
+	filter: opacity(80%);
+}
+
+p { margin: 0 3% 5px 3%; }
+
+h1, h2 { text-align: center; }
