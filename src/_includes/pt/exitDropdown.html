@@ -1,0 +1,10 @@
+<div id="exit-button">
+	<a href="/{{ page.lang }}" id="void-door">Sair</a>
+	<div class="doors">
+		{% for door in page.doors %}
+			<a href="/{{ page.lang }}/{{ door.href }}" class="door">
+				{{ door.name }}
+			</a>
+		{% endfor %}
+	</div>
+</div>

@@ -3,15 +3,15 @@
 	<head>
 		<meta charset="utf-8">
 		<title>{{ site.data.langs[page.lang].void.title }}</title>
-		<link rel="stylesheet" href="/assets/css/{{ page.style }}">
+		<link rel="stylesheet" href="/assets/css/void.css">
+		<script type="module" src="/assets/scripts/void.js">></script>
 	</head>
 	<body>
 		<script>0</script>
-		<nav class="index-nav">
-			<a class="index-a" href="home">{{ site.data.langs[page.lang].void.home }}</a>
-			<a class="index-a" href="gallery">{{ site.data.langs[page.lang].void.gallery }}</a>
-			<a class="index-a" href="blog">{{ site.data.langs[page.lang].void.blog }}</a>
-		</nav>
+		{{ content }}
+		<div class="extras">
+		{% include langSelectButton.html %}
 		<div id="copyright">Nikoneko 2026</div>
+		</div>
 	</body>
 </html>

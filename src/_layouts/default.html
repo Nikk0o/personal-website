@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ page.lang }}">
 	<head>
 		<meta charset="utf-8">
@@ -13,7 +13,7 @@
 			<div class="header">
 				<img src="/assets/images/{{ page.header-img }}">
 				<nav>
-					{% include exitDropdown.html %}
+					{% include {{ page.lang }}/exitDropdown.html %}
 
 					{% for section in page.sections %}
 						<a href="{{ section.href }}">{{ section.name }}</a>

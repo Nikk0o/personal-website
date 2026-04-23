@@ -1,11 +1,14 @@
 @import "variables.css";
 
+* {
+	font-family: "Courier New", Helvetica, monospace;
+}
+
 body {
 	margin: none;
 
 	color: var(--text-color);
 	background-color: var(--bg-color);
-	font-family: "Courier New", Helvetica, monospace;
 
 	display: flex;
 	flex-direction: column;
@@ -40,15 +43,74 @@ body {
 	backdrop-filter: invert(10%);
 }
 
-#copyright {
+.extras {
 	position: absolute;
 	margin-top: 130px;
+
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+#copyright {
+	/*
+	position: absolute;
+	margin-top: 130px;
+	*/
 
 	filter: opacity(50%);
 }
 
-.theme-choose {
+#lang-select-button { filter: opacity(50%); }
+
+#lang-select-button > button {
+	/*
 	position: fixed;
-	top: 50px;
-	left: 50px;
+	bottom: 100px;
+	*/
+
+	color: white;
+	background-color: transparent;
+
+	display: flex;
+	align-items: center;
+	gap: 5px;
+
+	font-size: 0.9em;
+	background-color: black;
+/*
+	padding: 5px;
+*/
+	/*
+	border: 2px white solid;
+	border-radius: 20px;
+	*/
+	border: none;
+}
+
+#lang-select-button > button:hover {
+	filter: invert(100%);
+}
+
+#lang-list {
+	position: absolute;
+	top: 20px;
+	left: -30px;
+
+	margin-left: 0px;
+}
+
+ul {
+	list-style: none;
+	text-align: left;
+}
+
+.lang {
+	color: white;
+	background-color: black;
+	text-decoration: none;
+}
+
+.lang:hover {
+	filter: invert(100%);
 }
