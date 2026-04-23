@@ -1,14 +1,11 @@
 @import "variables.css";
 
-* {
-	font-family: "Courier New", Helvetica, monospace;
-}
-
 body {
 	margin: none;
 
 	color: var(--text-color);
 	background-color: var(--bg-color);
+	font-family: "Courier New", Helvetica, monospace;
 
 	display: flex;
 	flex-direction: column;
@@ -20,27 +17,22 @@ body {
 	overflow: hidden;
 }
 
-.index-nav {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-
-	width: 100vw;
-}
-
-.index-a {
+nav a {
 	color: var(--text-color);
 	text-decoration: none;
+	text-align: center;
+
+	margin: auto;
 
 	display: block;
 	width: 300px;
 
-	text-align: center;
+	background-color: var(--bg-color);
 }
 
-.index-a:hover {
-	backdrop-filter: invert(10%);
+nav a:hover {
+	filter: invert(100%);
+	opacity: 70%;
 }
 
 .extras {
@@ -50,41 +42,38 @@ body {
 	display: flex;
 	flex-direction: row;
 	gap: 20px;
+
+	color: inherit;
+	font-family: inherit;
 }
 
-#copyright {
-	/*
-	position: absolute;
-	margin-top: 130px;
-	*/
+/*
+.extras > p {
+	color: inherit;
+	font-family: inherit;
+
+	filter: opacity(50%);
+}
+*/
+
+#lang-select-button {
+	color: inherit;
+	font-family: inherit;
 
 	filter: opacity(50%);
 }
 
-#lang-select-button { filter: opacity(50%); }
-
 #lang-select-button > button {
-	/*
-	position: fixed;
-	bottom: 100px;
-	*/
-
-	color: white;
-	background-color: transparent;
+	color: inherit;
+	font-family: inherit;
 
 	display: flex;
 	align-items: center;
 	gap: 5px;
 
 	font-size: 0.9em;
-	background-color: black;
-/*
-	padding: 5px;
-*/
-	/*
-	border: 2px white solid;
-	border-radius: 20px;
-	*/
+	background-color: var(--bg-color);
+
 	border: none;
 }
 
@@ -92,25 +81,33 @@ body {
 	filter: invert(100%);
 }
 
-#lang-list {
+#lang-select-button svg {
+	color: var(--text-color);
+}
+
+ul {
+	display: none;
+
 	position: absolute;
 	top: 20px;
 	left: -30px;
 
 	margin-left: 0px;
-}
 
-ul {
 	list-style: none;
 	text-align: left;
 }
 
-.lang {
-	color: white;
-	background-color: black;
+li a {
+	color: var(--text-color);
+	background-color: var(--bg-color);
 	text-decoration: none;
 }
 
-.lang:hover {
+li a:hover {
 	filter: invert(100%);
+}
+
+li[data-selected="true"] a:not(:hover) {
+	filter: invert(70%);
 }

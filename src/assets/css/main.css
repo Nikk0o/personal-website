@@ -8,7 +8,10 @@ body {
 	height: 100vh;
 }
 
-.header { position: relative; }
+.header {
+	position: relative;
+	background-color: var(--header-bg-color);
+}
 
 .header > nav {
 	width: 100%;
@@ -22,7 +25,7 @@ body {
 
 	border-width: 1px 0px 1px 0px;
 	border-style: solid;
-	border-color: white;
+	border-color: var(--text-color);
 
 	margin-top: -5px;
 }
@@ -34,9 +37,9 @@ body {
 	font-size: 0.9em;
 
 	border: 1px outset white;
-	background-color: black;
+	background-color: var(--header-bg-color);
 
-	color: white;
+	color: var(--text-color);
 	text-decoration: none;
 
 	width: 15%;
@@ -48,13 +51,13 @@ body {
 
 	font-family: "Courier New", Helvetica, monospace;
 	font-size: 0.9em;
-	color: white;
+	color: inherit;
 	text-decoration: none;
 	text-align: center;
 
 	width: 100%;
 
-	background-color: black;
+	background-color: var(--header-bg-color);
 }
 
 .header nav > a:hover, .door:hover, #void-door:hover {
@@ -79,11 +82,11 @@ body {
 
 	width: 100%;
 
-	background-color: black;
+	background-color: var(--header-bg-color);
 }
 
 .door {
-	color: white;
+	color: var(--text-color);
 	text-decoration: none;
 
 	background-color: inherit;
