@@ -141,11 +141,11 @@ function setTheme(theme, buttonObj, animate = false) {
 				moonUp = new Animation(moonUpKeyframes, document.timeline)
 				sunDown = new Animation(sunDownKeyframes, document.timeline)
 
-				moonUp.play()
-				sunDown.play()
-
 				sun.children[0].setAttribute("fill", "black")
 				moon.children[0].setAttribute("fill", "darkblue")
+
+				moonUp.play()
+				sunDown.play()
 			} else {
 				moon.style.top = "0px"
 				sun.style.top = "24px"
@@ -161,11 +161,11 @@ function setTheme(theme, buttonObj, animate = false) {
 				moonDown = new Animation(moonDownKeyframes, document.timeline),
 				sunUp = new Animation(sunUpKeyframes, document.timeline)
 
-				moonDown.play()
-				sunUp.play()
-
 				sun.children[0].setAttribute("fill", "yellow")
 				moon.children[0].setAttribute("fill", "white")
+
+				moonDown.play()
+				sunUp.play()
 			}
 			else {
 				moon.style.top = "24px"
