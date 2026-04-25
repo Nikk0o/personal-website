@@ -6,7 +6,7 @@ export class Theme {
 
 	equals(obj) {
 		try {
-			return obj.bgColor === this.bgColor && obj.txtColor == this.txtColor
+			return obj.bgColor === this.bgColor && obj.txtColor === this.txtColor
 		} catch (e) {
 			return false
 		}
