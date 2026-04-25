@@ -1,0 +1,200 @@
+@import "variables.css";
+
+body {
+	margin: 0px;
+	background-color: var(--bg-color);
+
+	width: 100vw;
+	height: 100vh;
+
+	display: flex;
+	align-items: center;
+}
+
+.header {
+	position: relative;
+	background-color: var(--bg-color);
+}
+
+h1 {
+	font-family: monospace;
+}
+
+.contents {
+	height: 100%;
+	width: 50%;
+	margin: 20px auto auto auto;
+
+	background-color: var(--bg-color);
+	color: var(--text-color);
+}
+
+.header > nav {
+	width: 100%;
+	height: 30px;
+
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 5px;
+
+	border-width: 0px 0px 1px 0px;
+	border-style: groove;
+	border-color: var(--text-color);
+}
+
+.a-normal {
+	position: relative;
+
+	font-family: "Courier New", Helvetica, monospace;
+	font-size: 0.9em;
+
+	border: 0px solid white;
+	border-radius: 8px;
+	background-color: var(--bg-color);
+
+	color: var(--text-color);
+	text-decoration: underline;
+
+	margin-right: 2%;
+
+	min-width: 15%;
+	text-align: center;
+}
+
+.header nav > a:hover {
+	filter: invert(100%);
+}
+
+#page-config {
+	position: absolute;
+	left: 0px;
+}
+
+#lang-select-button {
+	position: relative;
+
+	color: inherit;
+	font-family: inherit;
+
+	filter: opacity(100%);
+}
+
+#lang-select-button > button {
+	color: inherit;
+	font-family: inherit;
+
+	display: flex;
+	align-items: center;
+	gap: 5px;
+
+	font-size: 0.9em;
+	background-color: var(--bg-color);
+
+	border: none;
+}
+
+#lang-select-button svg {
+	color: var(--text-color);
+}
+
+ul {
+	display: none;
+
+	position: absolute;
+	top: 20px;
+	left: -30px;
+
+	margin-left: 0px;
+
+	list-style: none;
+	text-align: left;
+}
+
+li a {
+	color: var(--text-color);
+	background-color: var(--bg-color);
+	text-decoration: none;
+}
+
+li a:hover {
+	filter: invert(100%);
+}
+
+li[data-selected="true"] a:not(:hover) {
+	text-decoration: underline;
+}
+
+#lang-select-button > button:hover {
+	filter: invert(100%);
+}
+
+#theme-changer > button {
+	position: relative;
+	overflow: hidden;
+}
+
+#sun-icon, #moon-icon {
+	margin: 0px;
+	position: absolute;
+	left: 0px;
+
+	margin: 0px;
+}
+
+#moon-icon {
+	top: 0px;
+}
+
+#sun-icon {
+	top: 24px;
+}
+
+#theme-changer > button {
+	color: inherit;
+
+	border: none;
+	background-color: transparent;
+
+	padding: 0px;
+
+	width: 20px;
+	height: 20px;
+
+	overflow: hidden;
+}
+
+#page-config > div {
+	display: inline-block;
+}
+
+@media not (prefers-reduced-motion: reduce) {
+
+	:root::view-transition-old(*) {
+		animation: sunrise var(--theme-transition-sec);
+	}
+
+	:root::view-transition-new(*) {
+		animation: change-theme-anim var(--theme-transition-sec);
+		animation-timing-function: ease-out;
+	}
+
+	@keyframes change-theme-anim {
+		from {
+			clip-path: circle(0% at var(--theme-button-x) var(--theme-button-y));
+		}
+		to {
+			clip-path: circle(calc(100vw + 100vh - var(--theme-button-x) - var(--theme-button-y)) at var(--theme-button-x) var(--theme-button-y));
+		}
+	}
+
+	@keyframes sunrise {
+		0% {
+			filter: contrast(100%) sepia(100%) saturate(200%) brightness(var(--sunset-brightness0)) hue-rotate(var(--sunset-hue-rotate0));
+		}
+		100% {
+			filter: contrast(0%) sepia(100%) saturate(500%) brightness(var(--sunset-brightness)) hue-rotate(var(--sunset-hue-rotate));
+		}
+	}
+}

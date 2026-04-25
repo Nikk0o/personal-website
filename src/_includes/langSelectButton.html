@@ -7,10 +7,10 @@
 	</button>
 	<ul id="lang-list">
 		<li data-selected="{% if page.lang == 'pt' %}true{% else %}false{% endif %}">
-			<a id="lang-pt" href="/pt" class="lang">{{ site.data.langs["pt"] }}</a>
+			<a id="lang-pt" href={{ page.permalink | replace_first: page.lang, "pt" }} class="lang">{{ site.data.langs["pt"] }}</a>
 		</li>
 		<li data-selected="{% if page.lang == 'en' %}true{% else %}false{% endif %}">
-			<a id="lang-en" href="/en" class="lang">{{ site.data.langs["en"] }}</a>
+			<a id="lang-en" href={{ page.permalink | replace_first: page.lang, "en" }} class="lang">{{ site.data.langs["en"] }}</a>
 		</li>
 	</ul>
 </div>

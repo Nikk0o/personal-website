@@ -2,5 +2,11 @@
 	--text-color: black;
 	--bg-color: white;
 
-	--header-bg-color: white;
+	--sunset-hue-rotate: -180deg;
+	--sunset-brightness: 120%;
+
+	--sunset-hue-rotate0: 0deg;
+	--sunset-brightness0: 90%;
+
+	--theme-transition-sec: 500ms;
 }

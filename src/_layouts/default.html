@@ -3,8 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<title>{{ page.title }}</title>
-		<link rel="stylesheet" href="/assets/css/main.css">
-		<link rel="stylesheet" href="/assets/css/{{ layout.style }}">
+		<link rel="stylesheet" media="(orientation: portrait)" href="/assets/css/layout-portrait.css">
+		<link rel="stylesheet" media="(orientation: landscape)" href="/assets/css/layout-landscape.css">
+		<link rel="stylesheet" media="(orientation: portrait)" href="/assets/css/{{ layout.style }}-portrait.css">
+		<link rel="stylesheet" media="(orientation: landscape)" href="/assets/css/{{ layout.style }}-landscape.css">
 		<link rel="icon" type="image/x-icon" href="/assets/images/icon.ico">
 		<script type="module" src="/assets/scripts/layout.js"></script>
 	</head>
@@ -15,16 +17,17 @@
 			<div class="header">
 				<h1 style="font-size: 5em; text-align: center;">NIKONEKO</h1>
 				<nav>
-					{% include langSelectButton.html %}
+					<div id="page-config">
+						{% include langSelectButton.html %}
+						{% include themeChanger.html %}
+					</div>
 
 					{% for door in page.doors %}
 						<a class="a-normal" href="/{{ page.lang }}/{{ door.href }}">> {{ door.name }}</a>
 					{% endfor %}
 				</nav>
 			</div>
-			<div class="scroll-content">
-				{{ content }}
-			</div>
+			{{ content }}
 		</div>
 	</body>
 </html>
