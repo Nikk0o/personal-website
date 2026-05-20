@@ -1,0 +1,60 @@
+@import "variables.css";
+
+#lang-select-button {
+	position: relative;
+
+	color: inherit;
+	font-family: Helvetica;
+	font-weight: 700;
+
+	filter: opacity(100%);
+}
+
+#lang-select-button > button {
+	color: inherit;
+	font-family: inherit;
+
+	display: flex;
+	align-items: center;
+	gap: 5px;
+
+	font-size: 0.9em;
+	background-color: var(--bg-color);
+
+	border: none;
+}
+
+#lang-select-button svg {
+	color: var(--text-color);
+}
+
+#lang-select-button ul {
+	display: none;
+
+	position: absolute;
+	top: 20px;
+	left: -30px;
+
+	margin-left: 0px;
+
+	list-style: none;
+	text-align: left;
+}
+
+#lang-select-button li a {
+	color: var(--text-color);
+	background-color: var(--bg-color);
+	text-decoration: none;
+}
+
+#lang-select-button li a:hover {
+	filter: invert(100%);
+}
+
+#lang-select-button li[data-selected="true"] a:not(:hover) {
+	text-decoration: underline;
+}
+
+#lang-select-button > button:hover {
+	filter: invert(100%);
+}

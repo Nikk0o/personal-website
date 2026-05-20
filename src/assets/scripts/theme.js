@@ -1,3 +1,5 @@
+import { showStars, hideStars } from "./stars.js"
+
 export class Theme {
 	constructor(bgColor, txtColor) {
 		this.bgColor = bgColor
@@ -31,10 +33,10 @@ export function setupThemes(buttonObj, themelist) {
 			setTheme("light", this, true)
 	}
 
-	if (!sessionStorage.getItem("theme"))
-		setTheme("light", buttonObj)
-	else
+	if (sessionStorage.getItem("theme"))
 		setTheme(sessionStorage.getItem("theme"), buttonObj)
+	else
+		setTheme("light", buttonObj)
 
 	buttonObj.addEventListener("click", onClick)
 }
@@ -61,13 +63,13 @@ function isTheme(theme) {
 
 const moveDown = [
 		{ // to
-			top: "24px",
+			transform: "translate(0, 5em) rotate(45deg)",
 			easing: ["ease-out"]
 		}
 	],
 	moveUp = [
 		{ //to
-			top: "0px",
+			transform: "translate(0, 0) rotate(45deg)",
 			easing: ["ease-out"]
 		}
 	]
@@ -114,16 +116,11 @@ const moonUpKeyframes = new KeyframeEffect(
 	}
 )
 
-var sunUp = null,
-	sunDown = null,
-	moonUp = null,
-	moonDown = null
+function setMoonPhase(moonObj) {
+}
 
 function setTheme(theme, buttonObj, animate = false) {
 	const currentTheme = getAppliedTheme()
-
-	if (currentTheme.equals(themes[theme]))
-		return
 
 	sessionStorage.setItem("theme", theme)
 
@@ -136,41 +133,60 @@ function setTheme(theme, buttonObj, animate = false) {
 			document.documentElement.style.setProperty("--sunset-brightness", "250%")
 			document.documentElement.style.setProperty("--sunset-hue-rotate0", "-130deg")
 			document.documentElement.style.setProperty("--sunset-brightness0", "120%")
+			document.documentElement.style.setProperty("--glow-color", "transparent")
+			document.documentElement.style.setProperty("--shadow-color", "black")
+
+			moon.children[1].children[0].setAttribute("fill", "black")
+			sun.children[0].setAttribute("fill", "black")
 
 			if (animate) {
-				moonUp = new Animation(moonUpKeyframes, document.timeline)
-				sunDown = new Animation(sunDownKeyframes, document.timeline)
+				let sunUp = new Animation(sunUpKeyframes, document.timeline)
+				let moonDown = new Animation(moonDownKeyframes, document.timeline)
 
-				sun.children[0].setAttribute("fill", "black")
-				moon.children[0].setAttribute("fill", "darkblue")
+				setTimeout(() => {
+					moonDown.play()
+					sunUp.play()
+				}, 120)
 
-				moonUp.play()
-				sunDown.play()
 			} else {
-				moon.style.top = "0px"
-				sun.style.top = "24px"
+				let sunUp = new Animation(new KeyframeEffect(sun, moveUp, { easing: "ease-out", fill: "forwards", duration: 0 }), document.timeline),
+					moonDown = new Animation(new KeyframeEffect(moon, moveDown, { easing: "ease-out", fill: "forwards", duration: 0 }), document.timeline)
+
+				sunUp.play()
+				moonDown.play()
 			}
+
+			hideStars()
 		}
 		else if (theme === "dark") {
-			document.documentElement.style.setProperty("--sunset-hue-rotate", "-220deg")
+			document.documentElement.style.setProperty("--sunset-hue-rotate", "-150deg")
 			document.documentElement.style.setProperty("--sunset-brightness", "20%")
 			document.documentElement.style.setProperty("--sunset-hue-rotate0", "0deg")
 			document.documentElement.style.setProperty("--sunset-brightness0", "90%")
+			document.documentElement.style.setProperty("--glow-color", "white")
+			document.documentElement.style.setProperty("--shadow-color", "transparent")
+
+			sun.children[0].setAttribute("fill", "white")
+			moon.children[1].children[0].setAttribute("fill", "white")
 
 			if (animate) {
-				moonDown = new Animation(moonDownKeyframes, document.timeline),
-				sunUp = new Animation(sunUpKeyframes, document.timeline)
+				let moonUp = new Animation(moonUpKeyframes, document.timeline)
+				let sunDown = new Animation(sunDownKeyframes, document.timeline)
 
-				sun.children[0].setAttribute("fill", "yellow")
-				moon.children[0].setAttribute("fill", "white")
-
-				moonDown.play()
-				sunUp.play()
+				setTimeout(() => {
+					sunDown.play()
+					moonUp.play()
+				}, 120)
 			}
 			else {
-				moon.style.top = "24px"
-				sun.style.top = "0px"
+				let sunDown = new Animation(new KeyframeEffect(sun, moveDown, { easing: "ease-out", fill: "forwards", duration: 0 }), document.timeline),
+					moonUp = new Animation(new KeyframeEffect(moon, moveUp, { easing: "ease-out", fill: "forwards", duration: 0 }), document.timeline)
+
+				sunDown.play()
+				moonUp.play()
 			}
+
+			showStars()
 		}
 	}
 

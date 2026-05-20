@@ -1,0 +1,65 @@
+@import "variables.css";
+
+#theme-changer > button {
+	position: relative;
+	overflow: hidden;
+}
+
+#sun-icon, #moon-icon {
+	margin: 0px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+
+	transform: rotate(45deg);
+	margin: 0px;
+}
+
+#moon-icon svg {
+	margin: 0px;
+}
+
+#theme-changer > button {
+	color: inherit;
+
+	border: none;
+	background-color: transparent;
+
+	padding: 0px;
+
+	width: 5em;
+	height: 5em;
+
+	overflow: hidden;
+}
+
+
+@media not (prefers-reduced-motion: reduce) {
+
+	:root::view-transition-old(*) {
+		animation: sunrise var(--theme-transition-sec);
+	}
+
+	:root::view-transition-new(*) {
+		animation: change-theme-anim var(--theme-transition-sec);
+		animation-timing-function: ease-in;
+	}
+
+	@keyframes change-theme-anim {
+		from {
+			clip-path: circle(0% at calc(var(--theme-button-x) + 4em / 2) calc(var(--theme-button-y) + 4em / 2));
+		}
+		to {
+			clip-path: circle(calc(100vw + 100vh - var(--theme-button-x) - var(--theme-button-y)) at var(--theme-button-x) var(--theme-button-y));
+		}
+	}
+
+	@keyframes sunrise {
+		0% {
+			filter: contrast(100%) sepia(100%) saturate(200%) brightness(var(--sunset-brightness0)) hue-rotate(var(--sunset-hue-rotate0));
+		}
+		100% {
+			filter: contrast(0%) sepia(100%) saturate(500%) brightness(var(--sunset-brightness)) hue-rotate(var(--sunset-hue-rotate));
+		}
+	}
+}

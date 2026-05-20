@@ -9,4 +9,7 @@
 	--sunset-brightness0: 90%;
 
 	--theme-transition-sec: 500ms;
+
+	--glow-color: transparent;
+	--shadow-color: black;
 }

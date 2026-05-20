@@ -1,5 +1,6 @@
-import { enableSelectLang } from "./language.js"
 import { Theme, setupThemes, getTheme } from "./theme.js"
+import { createStars, showStars, hideStars } from "./stars.js"
+import { enableSelectLang } from "./language.js"
 
 const lang = document.documentElement.lang.split('-')[0],
       themes = {
@@ -8,6 +9,6 @@ const lang = document.documentElement.lang.split('-')[0],
 	  }
 
 window.onload = () => {
-	enableSelectLang("lang-select-button", "lang-list")
+	createStars(50, document.getElementById('stars'))
 	setupThemes(document.getElementById("theme-changer"), themes)
 }
