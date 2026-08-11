@@ -10,7 +10,7 @@
 		flake-utils.lib.eachDefaultSystem (system:
 			let pkgs = nixpkgs.legacyPackages.${system}; in
 			{
-				nixosModules.default = ./module.nix;
+				nixosModules = ./module.nix;
 			}
 		);
 }
