@@ -19,7 +19,7 @@ let cfg = config.services.lagarto-gay; in
 		# Node to run the backend
 		systemPackages = [
 			nodejs
-			./default.nix { inherit cfg.rootPath pkgs }
+			(./default.nix { inherit cfg.rootPath pkgs })
 		];
 
 		systemd.services.serverBackend = {
