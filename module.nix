@@ -23,8 +23,8 @@ let cfg = config.services.lagarto-gay; in
 		];
 
 		systemd.services.serverBackend = {
-			ExecStart = "node ${cfg.rootPath}/backend/index.js";
-			Type = "exec";
+			serviceConfig.ExecStart = "node ${cfg.rootPath}/backend/index.js";
+			serviceConfig.Type = "exec";
 		};
 
 		services.nginx = {
