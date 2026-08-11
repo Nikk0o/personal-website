@@ -22,7 +22,7 @@ let cfg = config.services.lagarto-gay; in
 		];
 
 		systemd.services.serverBackend = {
-			sfter = [ "network.target" ];
+			after = [ "network.target" ];
 			serviceConfig.ExecStart = "node ${srvpkg}/backend/index.js";
 			serviceConfig.Type = "exec";
 		};
