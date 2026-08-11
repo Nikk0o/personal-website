@@ -43,20 +43,19 @@ export function setupScene(width, height, modelpath, bg_color) {
 
 		const clips = model.animations;
 		const action = mixer.clipAction(clips[0], felix).setLoop(three.LoopRepeat);
-		console.log(action);
+
+		function animate(t) {
+			requestAnimationFrame(animate);
+
+			const delta = clock.getDelta();
+			mixer.update(delta);
+
+			renderer.render(scene, camera);
+		}
+		renderer.setAnimationLoop(animate);
 		action.play();
 
 	}, undefined, function (err) { console.log(err); });
-
-	function animate(t) {
-		requestAnimationFrame(animate);
-
-		const delta = clock.getDelta();
-		mixer.update(delta);
-
-		renderer.render(scene, camera);
-	}
-	renderer.setAnimationLoop(animate);
 
 	document.body.appendChild(renderer.domElement);
 }
