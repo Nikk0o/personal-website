@@ -9,7 +9,6 @@ let cfg = config.services.lagarto-gay; in
 
 			rootPath = lib.mkOption {
 				description = "The directory where the server will be installed";
-				default = "/var/www/lagarto-gay";
 				type = lib.types.str;
 			};
 		};
