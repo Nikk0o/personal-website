@@ -1,4 +1,4 @@
-{ srvroot, pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> {} }:
 pkgs.stdenv.mkDerivation {
 	name = "lagarto-gay";
 	dontUnpack = true;
@@ -6,7 +6,7 @@ pkgs.stdenv.mkDerivation {
 	buildPhase = "";
 
 	installPhase = ''
-		mkdir -p ${srvroot}
-		cp frontend ${srvroot}
-		cp backend ${srvroot}'';
+		mkdir -p $out
+		cp frontend $out
+		cp backend $out'';
 }
