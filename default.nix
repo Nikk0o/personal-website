@@ -1,19 +1,12 @@
-{ pkgs ? import <nixpkgs> {}, ... }:
-let jekyll = pkgs.jekyll;
-    bundler = pkgs.bundler;
-in
-	pkgs.stdenv.mkDerivation {
-		name = "Niko personal website";
-		src = ./src;
+{ srvroot, pkgs ? import <nixpkgs> {} }:
+pkgs.stdenv.mkDerivation {
+	name = "lagarto-gay";
+	dontUnpack = true;
 
-		nativeBuildInputs = [ jekyll bundler ];
+	buildPhase = "";
 
-		buildPhase = ''
-			jekyll build
-		'';
-
-		installPhase = ''
-			mkdir $out -p
-			cp ./_site/* $out -r
-		'';
-	}
+	installPhase = ''
+		mkdir -p ${srvroot}
+		cp frontend ${srvroot}
+		cp backend ${srvroot}'';
+}

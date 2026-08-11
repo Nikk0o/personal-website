@@ -1,35 +1,17 @@
 {
-	description = "Niko's personal website";
+  description = "Personal website";
 
-	inputs = {
-		nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 		flake-utils.url = "github:numtide/flake-utils";
-	};
+  };
 
-	outputs = { self, nixpkgs, flake-utils }@inputs:
+  outputs = { nixpkgs, flake-utils }: {
 		flake-utils.lib.eachDefaultSystem (system:
-			let pkgs = nixpkgs.legacyPackages.${system};
-					srvpkg = pkgs.callPackage ./default.nix {};
-			    srvapp =
-						srvpkg.overrideAttrs (final: prev:
-							{ installPhase = prev.installPhase + ''
-
-mkdir $out/bin
-echo -e "#!/bin/bash''\n${pkgs.jekyll}/bin/jekyll serve --destination $out --port 4000 --skip-initial-build" > $out/bin/run
-chmod +777 $out/bin/run'';
-							}
-						);
-			in
+			let pkgs = nixpkgs.legacyPackages.${system}; in
 			{
-				apps = {
-					default = {
-						type = "app";
-						program = "${srvapp}/bin/run";
-					};
-				};
-
-			}) // rec {
-				nixosModules.leksush = import ./module.nix;
-				nixosModules.default = nixosModules.leksush;
-			};
+				nixosModules.default = ./module.nix;
+			}
+		);
+  };
 }

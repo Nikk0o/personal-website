@@ -1,66 +1,41 @@
-{ config, pkgs, lib, ... }:
-let cfg = config.leksush;
-		types = lib.types;
-in
+{ lib, pkgs, config, ... }:
+let cfg = config.services.lagarto-gay; in
 {
-	imports = [];
-
 	options = {
-		leksush = {
-			enable = lib.mkEnableOption "Run the server.";
 
-			domain = lib.mkOption {
-				type = types.str;
-				default = "leksu.sh";
-			};
+    services.lagarto-gay = {
 
-			galleryPath = lib.mkOption {
-				type = types.path;
-				default = /srv/art;
+			enable = lib.mkEnableOption "Run the server";
+
+			rootPath = lib.mkOption {
+				description = "The directory where the server will be installed";
+				default = "/var/www/lagarto-gay";
+				type = lib.types.str;
 			};
 		};
 	};
 
-	config =
-	let srvpkg = pkgs.callPackage ./default.nix { };
-	in
-		lib.mkIf cfg.enable {
+	config = lib.mkIf cfg.enable {
 
-			environment.systemPackages = [
-				srvpkg
-			];
+		# Node to run the backend
+		systemPackages = [
+			nodejs
+			./default.nix { inherit cfg.rootPath pkgs }
+		];
 
-			services.nginx.virtualHosts = {
+		systemd.services.serverBackend = {
+			ExecStart = "node ${cfg.rootPath}/backend/index.js";
+			Type = "exec";
+		};
 
-			/*
-				# This doesn't work for some reason,
-				# it redirects everything to /gallery/ (at least when testing with localhost)
-				"art.${cfg.domain}" = {
-					serverName = "art.${cfg.domain}";
-					root = "${srvpkg}/gallery/";
-				};
+		services.nginx = {
+			enable = true;
 
-				"blog.${cfg.domain}" = {
-					serverName = "blog.${cfg.domain}";
-					root = "${srvpkg}/blog/";
-				};
-			*/
+			virtualHosts."leksu.sh" = {
+				root = "${cfg.rootPath}/frontend";
 
-				${cfg.domain} = {
-					serverName = cfg.domain;
-
-					locations = {
-						"/" = {
-							root = "${srvpkg}";
-						};
-
-						"/arts/" = {
-							alias = cfg.galleryPath;
-						};
-					};
-
-					extraConfig = "error_page 404 /404.html ;";
-				};
+				locations."/api".proxyPass = "http://localhost:3000";
 			};
 		};
+	};
 }
