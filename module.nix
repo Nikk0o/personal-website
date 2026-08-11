@@ -17,7 +17,7 @@ let cfg = config.services.lagarto-gay; in
 	config = lib.mkIf cfg.enable {
 
 		# Node to run the backend
-		systemPackages = [
+		environment.systemPackages = [
 			pkgs.nodejs
 			(pkgs.callPackage ./default.nix { srvroot = cfg.rootPath; pkgs = pkgs; })
 		];
