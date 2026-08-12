@@ -37,7 +37,7 @@ export function setupScene(width, height, modelpath, bg_color) {
 
 		const clips = gltf.animations;
 
-		fetch('http://leksu.sh/api/dance')
+		fetch('/api/dance')
 		.then((response) => {
 			if (response.ok)
 				return response.json()
