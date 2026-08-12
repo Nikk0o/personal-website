@@ -21,14 +21,16 @@ let cfg = config.services.lagarto-gay; in
 			pkgs.nodejs
 			front
 			back
-
-			pkgs.nodePackages.cors
-			pkgs.nodePackages.express
 		];
 
 		systemd.services.runBackend = {
 			after = [ "network.target" ];
-			serviceConfig.ExecStart = "${pkgs.nodejs}/bin/node ${back}/index.js";
+			serviceConfig.ExecStart = ''
+				cd ${back}
+				${pkgs.npm}/bin/npm i
+				${pkgs.nodejs}/bin/node ${back}/index.js
+			'';
+
 			serviceConfig.Type = "exec";
 		};
 
