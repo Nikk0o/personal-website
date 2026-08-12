@@ -32,9 +32,7 @@ let cfg = config.services.lagarto-gay; in
 
 			virtualHosts."leksu.sh" = {
 				root = "${srvpkg}/frontend";
-			};
 
-			virtualHosts."api" = {
 				locations."/api/".proxyPass = "http://localhost:3000/";
 			};
 		};
