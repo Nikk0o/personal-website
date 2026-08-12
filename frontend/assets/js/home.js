@@ -1,3 +1,4 @@
 import { setupScene } from "./scene.js";
 
-setupScene(480, 360, "/assets/models/felix.glb", 0xffffff);
+const bg_color = window.getComputedStyle(document.body).getPropertyValue('--bg-color')
+setupScene(480, 360, "/assets/models/felix.glb", bg_color)

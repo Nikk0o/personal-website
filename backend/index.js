@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from 'express';
 import path from 'path';
 
@@ -14,7 +15,9 @@ setupDanceState(update, n, n_dances)
 // é retornar a dança
 const app = express()
 
+app.use(cors({ origin: '*' }))
+
 app.get('/dance', (req, res) => {
-	res.send(`${getDanceState()}`)
+	res.json({ id: `${getDanceState()}` })
 })
 app.listen(3000)

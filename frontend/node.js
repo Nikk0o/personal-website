@@ -11,4 +11,4 @@ app.get('/*path', (req, res) => {
 	res.sendFile(path.join(import.meta.dirname, req.params.path.join('/')));
 });
 
-app.listen(3000);
+app.listen(3001);
