@@ -22,9 +22,7 @@ let cfg = config.services.lagarto-gay; in
 		systemd.services.runBackend = {
 			after = [ "network.target" ];
 			path = [ pkgs.nodejs ];
-			serviceConfig.ExecStart = ''
-				${pkgs.nodejs}/bin/node index.js
-			'';
+			serviceConfig.ExecStart = ''${pkgs.nodejs}/bin/node index.js'';
 
 			serviceConfig = {
 				Type = "exec";
