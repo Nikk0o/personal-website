@@ -1,11 +1,10 @@
 {
   "name": "personal-website",
   "version": "1.0.0",
-  "description": "Niko's personal website",
+  "description": "Backend",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "frontend": "node frontend/node.js"
   },
   "repository": {
     "type": "git",

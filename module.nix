@@ -11,19 +11,21 @@ let cfg = config.services.lagarto-gay; in
 
 	config =
 	let
-		srvpkg = (pkgs.callPackage ./default.nix { inherit pkgs; });
+		front = (pkgs.callPackage ./frontend/default.nix { inherit pkgs; });
+		back  = (pkgs.callPackage ./backend/default.nix { inherit pkgs; });
 	in
 	lib.mkIf cfg.enable {
 
 		# Node to run the backend
 		environment.systemPackages = [
 			pkgs.nodejs
-			srvpkg
+			front
+			back
 		];
 
-		systemd.services.serverBackend = {
+		systemd.services.runBackend = {
 			after = [ "network.target" ];
-			serviceConfig.ExecStart = "${pkgs.nodejs}/bin/node ${srvpkg}/backend/index.js";
+			serviceConfig.ExecStart = "${pkgs.nodejs}/bin/node ${back}/index.js";
 			serviceConfig.Type = "exec";
 		};
 
@@ -31,7 +33,7 @@ let cfg = config.services.lagarto-gay; in
 			enable = true;
 
 			virtualHosts."leksu.sh" = {
-				locations."/".root = "${srvpkg}/frontend";
+				locations."/".root = "${front}";
 				locations."/api/".proxyPass = "http://localhost:3000/";
 			};
 		};
