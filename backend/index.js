@@ -17,7 +17,7 @@ const app = express()
 
 app.use(cors({ origin: '*' }))
 
-app.get('/dance', (req, res) => {
+app.get('/api/dance', (req, res) => {
 	res.status(200).json({ id: `${getDanceState()}` })
 })
 app.listen(3000)
