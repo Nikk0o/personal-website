@@ -9,8 +9,9 @@ html, body {
 	height: 100vh;
 }
 
-.content-container {
+#content-container {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 
@@ -25,6 +26,22 @@ canvas {
 	height: 360px;
 }
 
-.contact a {
-	margin: 0px 10px 0px 10px;
+.contact {
+	display: flex;
+	gap: 10px;
+}
+
+* {
+	font-size: 1em;
+}
+
+svg {
+	width: 20px;
+	height: 20px;
+
+	color: black;
+}
+
+a:hover svg {
+	color: blue;
 }

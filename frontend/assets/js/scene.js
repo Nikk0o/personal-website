@@ -71,5 +71,6 @@ export function setupScene(width, height, modelpath, bg_color) {
 
 	}, undefined, function (err) { console.log(err); });
 
-	document.body.appendChild(renderer.domElement);
+	const c = document.getElementById('content-container');
+	c.insertBefore(renderer.domElement, c.firstChild);
 }
