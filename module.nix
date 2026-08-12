@@ -18,18 +18,21 @@ let cfg = config.services.lagarto-gay; in
 
 		# Node to run the backend
 		environment.systemPackages = [
-			pkgs.nodejs
 			front
 			back
 		];
 
 		systemd.services.runBackend = {
 			after = [ "network.target" ];
+			path = [ pkgs.nodejs ];
 			serviceConfig.ExecStart = ''
-				${pkgs.nodejs}/bin/node ${back}/index.js
+				${pkgs.nodejs}/bin/node index.js
 			'';
 
-			serviceConfig.Type = "exec";
+			serviceConfig = {
+				Type = "exec";
+				WorkingDirectory = "${back}";
+			};
 		};
 
 		services.nginx = {
