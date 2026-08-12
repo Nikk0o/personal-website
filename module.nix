@@ -21,6 +21,9 @@ let cfg = config.services.lagarto-gay; in
 			pkgs.nodejs
 			front
 			back
+
+			pkgs.nodePackages.cors
+			pkgs.nodePackages.express
 		];
 
 		systemd.services.runBackend = {
