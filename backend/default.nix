@@ -1,6 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 pkgs.buildNpmPackage {
-	name = "lagarto-gay-backend";
+	pname = "lagarto-gay-backend";
+	version = "1.0";
 	src = ./.;
 
 	npmDepsHash = "sha256-lGFoCr749mnqWKG0vVvfP5R1ZjTc6/i0h5U69v9izB4=";

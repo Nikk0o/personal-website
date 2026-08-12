@@ -1,6 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 pkgs.stdenv.mkDerivation {
-	name = "lagarto-gay-frontend";
+	pname = "lagarto-gay-frontend";
+	version = "1.0";
 	src = ./.;
 
 	buildPhase = "";
