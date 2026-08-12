@@ -39,7 +39,8 @@ let cfg = config.services.lagarto-gay; in
 			enable = true;
 
 			virtualHosts."leksu.sh" = {
-				locations."/".root = "${front}";
+				root = "${front}";
+
 				locations."/api/".proxyPass = "http://localhost:3000/";
 			};
 		};
