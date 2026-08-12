@@ -7,6 +7,6 @@ pkgs.stdenv.mkDerivation {
 	buildPhase = "";
 
 	installPhase = ''
-		mkdir -p $out/frontend
-		cp * $out/frontend -r'';
+		mkdir -p $out/
+		cp * $out -r'';
 }

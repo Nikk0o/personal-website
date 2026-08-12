@@ -1,5 +1,5 @@
-import cors from 'cors';
-import express from 'express';
+import cors from './node_modules/cors';
+import express from './node_modules/express';
 import path from 'path';
 
 import { setupDanceState, getDanceState } from './danceState.js';

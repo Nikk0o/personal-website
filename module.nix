@@ -2,9 +2,7 @@
 let cfg = config.services.lagarto-gay; in
 {
 	options = {
-
     services.lagarto-gay = {
-
 			enable = lib.mkEnableOption "Run the server";
 		};
 	};
@@ -16,7 +14,6 @@ let cfg = config.services.lagarto-gay; in
 	in
 	lib.mkIf cfg.enable {
 
-		# Node to run the backend
 		environment.systemPackages = [
 			front
 			back
