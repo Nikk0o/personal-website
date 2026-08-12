@@ -35,7 +35,7 @@ let cfg = config.services.lagarto-gay; in
 			};
 
 			virtualHosts."api" = {
-				locations."/api".proxyPass = "http://localhost:3000";
+				locations."/api/".proxyPass = "http://localhost:3000";
 			};
 		};
 	};
