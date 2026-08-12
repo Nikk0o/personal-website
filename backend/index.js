@@ -1,5 +1,5 @@
-import cors from './node_modules/cors';
-import express from './node_modules/express';
+import cors from './node_modules/cors/lib/index.js';
+import express from './node_modules/express/index.js';
 import path from 'path';
 
 import { setupDanceState, getDanceState } from './danceState.js';
@@ -17,7 +17,7 @@ const app = express()
 
 app.use(cors({ origin: '*' }))
 
-app.get('/api/dance', (req, res) => {
+app.get('/dance', (req, res) => {
 	res.status(200).json({ id: `${getDanceState()}` })
 })
 app.listen(3000)
