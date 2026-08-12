@@ -5,7 +5,7 @@ pkgs.buildNpmPackage {
 
 	npmDepsHash = "sha256-rAopIuxC5ShPv3QvYAFgdeXBL+VMAdbx1WcMWAQculc=";
 
-	buildPhase = "";
+	dontNpmBuild = true;
 
 	installPhase = ''
 		mkdir -p $out/backend
