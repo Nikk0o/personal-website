@@ -4,7 +4,7 @@
   "description": "Backend",
   "main": "index.js",
   "type": "module",
-  "scripts": { },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Nikk0o/personal-website.git"
@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/Nikk0o/personal-website#readme",
   "dependencies": {
+    "cor": "^0.0.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "three": "^0.185.1",
