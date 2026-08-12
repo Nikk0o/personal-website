@@ -27,7 +27,7 @@ let cfg = config.services.lagarto-gay; in
 			after = [ "network.target" ];
 			serviceConfig.ExecStart = ''
 				cd ${back}
-				${pkgs.npm}/bin/npm i
+				${pkgs.nodejs}/bin/npm i
 				${pkgs.nodejs}/bin/node ${back}/index.js
 			'';
 
