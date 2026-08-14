@@ -4,7 +4,7 @@ import path from 'path';
 
 import { setupDanceState, getDanceState } from './danceState.js';
 
-const n = 6
+const n = 3
 const n_dances = 1
 const update = 1000*600 // 10 minutos
 

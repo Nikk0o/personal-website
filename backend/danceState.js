@@ -21,12 +21,12 @@ function setupDanceState(t, N, nd) {
 	n_dances = nd
 
 	// Nessa implementação, as probabilidades são
-	// p_(n-1) = k
+	// p_(n-1) = 1-k
 	// p_i = k * (n-i)
 	//
 	// Uma proproedade da cadeia de markov é que
 	// a probabilidade de ir do estado descansado
-	// para um estado dançando i é igual e p_i.
+	// para um estado dançando i é igual a 1-p_i.
 	//
 	// Então, a soma de todos os p_i = 1
 	// => k = 2 / (n*(n+1))
@@ -36,7 +36,8 @@ function setupDanceState(t, N, nd) {
 
 	const p_0 = 2 / (n+1)
 	for (let i = 0; i < n; i++)
-		P.push(p_0 * (n-i)/n)
+		P.push(1-p_0 * (n-i)/n)
+	P.reverse()
 
 	last_update = Date.now()
 }
@@ -65,10 +66,13 @@ function nextState() {
 	// Verifica em qual intervalo u caiu caso
 	// o estado seja descanso, e volta para
 	// aquele estado.
+	//
+	// A probabilidade de voltar a um estado
+	// i é maior para i pequeno.
 	if (state == n) {
 		let p = 0
 		for (let i = 0; i < n; i++)
-			if (u < (p += P[i])) {
+			if (u < (p += (1-P[n-1-i]))) {
 				state = i
 				break
 			}
@@ -78,7 +82,7 @@ function nextState() {
 
 	let p_i = P[state]
 
-	if (u >= p_i)
+	if (u <= p_i)
 		state = n
 	else
 		state = (state+1) % n
@@ -92,6 +96,5 @@ function nextState() {
 // muito código.
 function randomDance() {
 	const u = Math.random()
-
 	return Math.floor(u * n_dances)
 }
