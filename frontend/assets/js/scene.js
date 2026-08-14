@@ -1,22 +1,22 @@
-import * as three from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-const clock = new three.Clock();
+const clock = new THREE.Timer();
 
 export function setupScene(width, height, modelpath, bg_color) {
 
-	const scene = new three.Scene();
-	scene.background = new three.Color(bg_color);
+	const scene = new THREE.Scene();
+	scene.background = new THREE.Color(bg_color);
 
 	let camera = null;
 
-	const renderer = new three.WebGLRenderer();
+	const renderer = new THREE.WebGLRenderer();
 	renderer.setSize(width, height, false);
 
-	const hem_light = new three.HemisphereLight(0xffffff, 0, 1);
+	const hem_light = new THREE.HemisphereLight(0xffffff, 0, 1);
 	scene.add(hem_light);
 
-	const main_light = new three.DirectionalLight(0xffff60, 1);
+	const main_light = new THREE.DirectionalLight(0xffff60, 1);
 	main_light.position.set(5, 5, 0);
 	main_light.lookAt(0, 0, 0);
 	scene.add(main_light);
@@ -25,8 +25,8 @@ export function setupScene(width, height, modelpath, bg_color) {
 
 	let mixer = null;
 
-	let dta = 0
 	function animate(t) {
+		clock.update();
 		const delta = clock.getDelta();
 
 		if (mixer != null)
@@ -35,48 +35,52 @@ export function setupScene(width, height, modelpath, bg_color) {
 		renderer.render(scene, camera);
 	}
 
-	fetch('/api/dance')
+	fetch('http://localhost:3000/dance')
 	.then((response) => {
 		if (response.ok)
 			return response.json()
 		else
-			return { id: "-1" }
+			return null
 	})
-	.then((jsn) => {
-		const d = parseInt(jsn.id, 10);
-		let valid = true;
-		let clipname = 'descanso';
+	.then((obj) => {
+		if (!obj) {
+			return;
+		}
 
-		if (d == -1) {
-			camera = new three.OrthographicCamera(-4, 4, 4*height/width, -4*height/width, 0.1, 1000);
-			camera.position.set(1, 5, 5);
-			camera.lookAt(0, 0.5, 0);
+		const objcam = obj.camera;
 
+		camera = new THREE.OrthographicCamera(
+			-objcam.FOV,
+			objcam.FOV,
+			objcam.FOV*height/width,
+			-objcam.FOV*height/width,
+			0.1,
+			1000);
+
+		camera.position.set(
+			objcam.position.x,
+			objcam.position.y,
+			objcam.position.z);
+
+		camera.lookAt(
+			objcam.lookAt.x,
+			objcam.lookAt.y,
+			objcam.lookAt.z);
+
+		if (obj.defaultModel)
+			modelpath += "felix.glb";
+		else
 			modelpath += "felix olho fechado.glb";
 
-			renderer.domElement.setAttribute('title', 'Rest');
-		}
-		else {
-			if (d == 0) {
-				camera = new three.OrthographicCamera(-7, 7, 7*height/width, -7*height/width, 0.1, 1000);
-				camera.position.set(30, 25, 30);
-				camera.lookAt(0, 4, 0);
-
-				modelpath += "felix.glb";
-
-				renderer.domElement.setAttribute('title', 'BLJ');
-			}
-
-			clipname = `${d}`;
-		}
+		renderer.domElement.setAttribute('title', obj.title);
 
 		loader.load(modelpath, function (gltf) {
 			const model = gltf.scene;
 			scene.add(model);
 
-			mixer = new three.AnimationMixer(model);
+			mixer = new THREE.AnimationMixer(model);
 			const clips = gltf.animations;
-			const action = mixer.clipAction(three.AnimationClip.findByName(clips, clipname))
+			const action = mixer.clipAction(THREE.AnimationClip.findByName(clips, obj.id))
 			action.play();
 
 			renderer.setAnimationLoop(animate);

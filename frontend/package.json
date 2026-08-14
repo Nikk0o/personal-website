@@ -1,0 +1,30 @@
+{
+  "name": "personal-website",
+  "version": "1.0.0",
+  "description": "Backend",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "npm install"
+  },
+  "bin": {
+    "bin": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nikk0o/personal-website.git"
+  },
+  "author": "Nikoneko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nikk0o/personal-website/issues"
+  },
+  "homepage": "https://github.com/Nikk0o/personal-website#readme",
+  "dependencies": {
+    "cor": "^0.0.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "three": "^0.185.1",
+    "vite": "^8.2.1"
+  }
+}

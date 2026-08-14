@@ -1,0 +1,90 @@
+export { setupDanceState, getDanceState };
+
+var tired_lv = 0
+var tired = 0.0
+var phi = 2
+
+var state = 0
+var update_interval = 0
+
+function setupDanceState(t, N, nd) {
+	update_interval = t
+	n_dances = nd
+	n = N
+
+	function f(x)  { return x**(n+1)-2*x+1 }
+	function df(x) { return (n+1)*x**n-2 }
+
+	phi = newtonRaphson(f, df)
+
+	last_update = Date.now()
+}
+
+// Função que retorna uma dança aleatória entre 0 e
+// (n_dances - 1). Se estiver no estado de descanso,
+// retorna -1.
+function getDanceState() {
+	let u = 0.0
+
+	if (Date.now() - last_update > update_interval) {
+		u = nextState()
+		last_update = Date.now()
+	}
+
+	if (state == 1) return -1
+	return randomDance(u)
+}
+
+// Atualiza o estado
+function nextState() {
+
+	// Variável aleatória uniforme em [0, 1)
+	const u = Math.random()
+
+	// tired_lv indica o nível atual de cansaço,
+	// entre 0 e (n-1). Tired é uma função que
+	// pega 
+	if (state == 1) {
+		tired -= phi**tired_lv
+		tired_lv -= 1
+
+		if (u > tired)
+			state = 0
+	}
+	else {
+		tired_lv += 1
+		tired += phi**(n-tired_lv)
+
+		if (u < tired)
+			state = 1
+	}
+
+	return u
+}
+
+// Função que retorna um índice aleatório para
+// dança. Essa função permite que eu altere a
+// distribuição das danças sem ter que alterar
+// muito código.
+function randomDance(u) {
+	return Math.floor(u * n_dances)
+}
+
+function newtonRaphson(f, df) {
+	let xk = 0.49
+	let k = 0
+
+	const er = 0.001
+	const kmax = 100
+	do {
+		const xk_ = xk
+
+		xk -= f(xk)/df(xk)
+		k++
+
+		if (isNaN(xk))
+			throw new Error("NaN encontrado no Newton-Raphson")
+	} while ((xk-xk_)/xk > er && k <= kmax)
+
+	return xk
+}
