@@ -70,12 +70,11 @@ export function setupScene(width, height, modelpath, bg_color) {
 			const action = mixer.clipAction(THREE.AnimationClip.findByName(clips, animation.id))
 			action.play();
 
-			if (!animation.openEyes) {
-				let cubes = getHeadTextureMeshes(scene);
+			let cubes = getHeadTextureMeshes(scene);
+			if (!animation.openEyes)
 				cubes[0].material = cubes[1].material;
-			}
 
-			renderer.setAnimationLoop(animate(animation.blink, mixer, renderer, scene, camera));
+			renderer.setAnimationLoop(animate(animation.blink, mixer, renderer, scene, camera, cubes));
 		});
 	})
 
@@ -88,11 +87,11 @@ function animate(
 	mixer,
 	renderer,
 	scene,
-	camera
+	camera,
+	cubes
 ) {
 	let big_delta = 0;
 	let eyes_closed = false;
-	let cubes = getHeadTextureMeshes(scene);
 
 	return function (t) {
 		clock.update();
