@@ -28,12 +28,9 @@ export function setupScene(width, height, modelpath, bg_color) {
 	let dta = 0
 	function animate(t) {
 		const delta = clock.getDelta();
-		dta += delta;
 
-		if (mixer != null && dta >= 0.042)
-			mixer.update(dta);
-
-		if (dta >= 0.042) dta = 0;
+		if (mixer != null)
+			mixer.update(delta);
 
 		renderer.render(scene, camera);
 	}
