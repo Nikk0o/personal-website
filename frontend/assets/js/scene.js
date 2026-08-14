@@ -63,8 +63,6 @@ export function setupScene(width, height, modelpath, bg_color) {
 			const model = gltf.scene;
 			scene.add(model);
 
-			console.log(model);
-
 			mixer = new THREE.AnimationMixer(model);
 			const clips = gltf.animations;
 			const action = mixer.clipAction(THREE.AnimationClip.findByName(clips, animation.id))
