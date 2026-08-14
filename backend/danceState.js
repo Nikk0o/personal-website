@@ -37,6 +37,8 @@ function setupDanceState(t, N, nd) {
 	const p_0 = 2 / (n+1)
 	for (let i = 0; i < n; i++)
 		P.push(p_0 * (n-i)/n)
+
+	last_update = Date.now()
 }
 
 // Função que retorna uma dança aleatória entre 0 e

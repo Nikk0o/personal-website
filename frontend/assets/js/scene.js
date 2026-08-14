@@ -5,14 +5,10 @@ const clock = new three.Clock();
 
 export function setupScene(width, height, modelpath, bg_color) {
 
-	const n = 4;
-
 	const scene = new three.Scene();
 	scene.background = new three.Color(bg_color);
 
-	const camera = new three.OrthographicCamera(-n, n, n*height/width, -n*height/width, 0.1, 1000);
-	camera.position.set(6, 5, 6);
-	camera.lookAt(0, 1.5, 0);
+	let camera = null;
 
 	const renderer = new three.WebGLRenderer();
 	renderer.setSize(width, height, false);
@@ -29,47 +25,66 @@ export function setupScene(width, height, modelpath, bg_color) {
 
 	let mixer = null;
 
-	loader.load(modelpath, function (gltf) {
-		const model = gltf.scene;
-		scene.add(model);
+	let dta = 0
+	function animate(t) {
+		const delta = clock.getDelta();
+		dta += delta;
 
-		mixer = new three.AnimationMixer(model);
+		if (mixer != null && dta >= 0.042)
+			mixer.update(dta);
 
-		const clips = gltf.animations;
+		if (dta >= 0.042) dta = 0;
 
-		fetch('/api/dance')
-		.then((response) => {
-			if (response.ok)
-				return response.json()
-			else
-				return { id: "-1" }
-		})
-		.then((jsn) => {
-			const d = parseInt(jsn.id, 10)
-			if (d == -1) {
-				const action = mixer.clipAction(three.AnimationClip.findByName(clips, 'descanso'))
-				action.play()
-			}
-			else if (d < clips.length-1) {
-				const action = mixer.clipAction(three.AnimationClip.findByName(clips, `${d}`))
-				action.play()
-			}
-			else
-				console.log(`Server returned ${d}, which is an invalid animation number`)
-		})
-		.catch(console.log)
+		renderer.render(scene, camera);
+	}
 
-		function animate(t) {
-			requestAnimationFrame(animate);
+	fetch('http://localhost:3000/dance')
+	.then((response) => {
+		if (response.ok)
+			return response.json()
+		else
+			return { id: "-1" }
+	})
+	.then((jsn) => {
+		const d = parseInt(jsn.id, 10);
+		let valid = true;
+		let clipname = 'descanso';
 
-			const delta = clock.getDelta();
-			if (mixer != null)
-				mixer.update(delta);
-			renderer.render(scene, camera);
+		if (d == -1) {
+			camera = new three.OrthographicCamera(-4, 4, 4*height/width, -4*height/width, 0.1, 1000);
+			camera.position.set(1, 5, 5);
+			camera.lookAt(0, 0.5, 0);
+
+			modelpath += "felix olho fechado.glb";
+
+			renderer.domElement.setAttribute('title', 'Rest');
 		}
-		renderer.setAnimationLoop(animate);
+		else {
+			if (d == 0) {
+				camera = new three.OrthographicCamera(-7, 7, 7*height/width, -7*height/width, 0.1, 1000);
+				camera.position.set(30, 25, 30);
+				camera.lookAt(0, 4, 0);
 
-	}, undefined, function (err) { console.log(err); });
+				modelpath += "felix.glb";
+
+				renderer.domElement.setAttribute('title', 'BLJ');
+			}
+
+			clipname = `${d}`;
+		}
+
+		loader.load(modelpath, function (gltf) {
+			const model = gltf.scene;
+			scene.add(model);
+
+			mixer = new three.AnimationMixer(model);
+			const clips = gltf.animations;
+			const action = mixer.clipAction(three.AnimationClip.findByName(clips, clipname))
+			action.play();
+
+			renderer.setAnimationLoop(animate);
+		});
+	})
 
 	const c = document.getElementById('content-container');
 	c.insertBefore(renderer.domElement, c.firstChild);
