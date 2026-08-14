@@ -8,7 +8,8 @@ const animations = {
 	'-1': {
 		id: 'descanso',
 		title: 'Rest',
-		defaultModel: false,
+		openEyes: false,
+		blink: false,
 		camera: {
 			FOV: 4,
 			position: {
@@ -26,7 +27,8 @@ const animations = {
 	'0': {
 		id: 'blj',
 		title: 'Backwards long jump',
-		defaultModel: true,
+		openEyes: true,
+		blink: true,
 		camera: {
 			FOV: 7,
 			position: {

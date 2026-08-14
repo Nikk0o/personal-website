@@ -25,16 +25,6 @@ export function setupScene(width, height, modelpath, bg_color) {
 
 	let mixer = null;
 
-	function animate(t) {
-		clock.update();
-		const delta = clock.getDelta();
-
-		if (mixer != null)
-			mixer.update(delta);
-
-		renderer.render(scene, camera);
-	}
-
 	fetch('http://localhost:3000/dance')
 	.then((response) => {
 		if (response.ok)
@@ -42,12 +32,12 @@ export function setupScene(width, height, modelpath, bg_color) {
 		else
 			return null
 	})
-	.then((obj) => {
-		if (!obj) {
+	.then((animation) => {
+		if (!animation) {
 			return;
 		}
 
-		const objcam = obj.camera;
+		const objcam = animation.camera;
 
 		camera = new THREE.OrthographicCamera(
 			-objcam.FOV,
@@ -67,26 +57,77 @@ export function setupScene(width, height, modelpath, bg_color) {
 			objcam.lookAt.y,
 			objcam.lookAt.z);
 
-		if (obj.defaultModel)
-			modelpath += "felix.glb";
-		else
-			modelpath += "felix olho fechado.glb";
+		renderer.domElement.setAttribute('title', animation.title);
 
-		renderer.domElement.setAttribute('title', obj.title);
-
-		loader.load(modelpath, function (gltf) {
+		loader.load(modelpath+"felix.glb", function (gltf) {
 			const model = gltf.scene;
 			scene.add(model);
 
+			console.log(model);
+
 			mixer = new THREE.AnimationMixer(model);
 			const clips = gltf.animations;
-			const action = mixer.clipAction(THREE.AnimationClip.findByName(clips, obj.id))
+			const action = mixer.clipAction(THREE.AnimationClip.findByName(clips, animation.id))
 			action.play();
 
-			renderer.setAnimationLoop(animate);
+			if (!animation.openEyes) {
+				let cubes = getHeadTextureMeshes(scene);
+				cubes[0].material = cubes[1].material;
+			}
+
+			renderer.setAnimationLoop(animate(animation.blink, mixer, renderer, scene, camera));
 		});
 	})
 
 	const c = document.getElementById('content-container');
 	c.insertBefore(renderer.domElement, c.firstChild);
+}
+
+function animate(
+	blink,
+	mixer,
+	renderer,
+	scene,
+	camera
+) {
+	let big_delta = 0;
+	let eyes_closed = false;
+	let cubes = getHeadTextureMeshes(scene);
+
+	return function (t) {
+		clock.update();
+		const delta = clock.getDelta();
+
+		if (mixer != null)
+			mixer.update(delta);
+
+		// Animação de piscar
+		big_delta += delta;
+		let changed = false
+		if (blink) {
+			if (eyes_closed && big_delta > 0.25 || !eyes_closed && big_delta > 1.5) {
+				eyes_closed = !eyes_closed;
+				changed = true;
+			}
+			else
+				changed = false;
+
+			if (changed) {
+				const tmp = cubes[0].material;
+				cubes[0].material = cubes[1].material;
+				cubes[1].material = tmp;
+
+				big_delta = 0;
+			}
+		}
+
+		renderer.render(scene, camera);
+	}
+}
+
+// Função para pegar os objetos que têm as texturas
+// com olho aberto e fechado.
+function getHeadTextureMeshes(scene) {
+	let head = scene.getObjectByName('cabeca001');
+	return [ head.getObjectByName('Cube011_1'), head.getObjectByName('Cube011_2') ];
 }
