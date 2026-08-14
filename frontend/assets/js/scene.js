@@ -25,7 +25,7 @@ export function setupScene(width, height, modelpath, bg_color) {
 
 	let mixer = null;
 
-	fetch('http://localhost:3000/dance')
+	fetch('/api/dance')
 	.then((response) => {
 		if (response.ok)
 			return response.json()

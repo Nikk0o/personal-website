@@ -19,7 +19,7 @@ const animations = {
 			},
 			lookAt: {
 				x: 0,
-				y: 0.5,
+				y: 2,
 				z: 0
 			}
 		}
