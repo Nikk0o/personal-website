@@ -47,7 +47,7 @@ const animations = {
 
 const n_dances = Object.keys(animations).length-1
 const n = 6
-const update = 10*60*1000 // 10 minutos
+const update = 1.5*60*1000 // 1,5 minuto
 
 // Configura o estado da dança
 setupState(update, n, n_dances)
