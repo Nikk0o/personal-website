@@ -7,11 +7,17 @@ const clock = new THREE.Timer();
 
 function createEmptyScene() {
 	const scene = new THREE.Scene();
-	const renderer = new THREE.WebGLRenderer();
+	scene.background = new THREE.Color(0xcccccc);
 
-	let camera = new THREE.PerspectiveCamera();
+	const renderer = new THREE.WebGLRenderer();
+	renderer.setSize(500, 500);
+
+	let camera = new THREE.PerspectiveCamera(45, 1, 1, 1000);
 	camera.position.set(10, 10, 10);
-	camera.lookAt(0, 0, 0);
+	camera.lookAt(0, 2, 0);
+
+	let light = new THREE.AmbientLight(0xffffff, 2);
+	scene.add(light);
 
 	let normal_model = undefined;
 	let mixamo_model = undefined;
@@ -19,14 +25,13 @@ function createEmptyScene() {
 	const loader = new GLTFLoader();
 
 	// Load both models
-	loader.load('storage/models/felix.glb', (gltf) => {
+	loader.load('http://localhost:3000/storage/models/felix.glb', (gltf) => {
 		const model = gltf.scene;
 		scene.add(model);
 		normal_model = model;
 
-		loader.load('/storage/models/felix mixamo.glb', (gltf2) => {
+		loader.load('http://localhost:3000/storage/models/felix mixamo.glb', (gltf2) => {
 			const model2 = gltf2.scene;
-			scene.add(model2);
 			mixamo_model = model2;
 		}, undefined, console.log);
 

@@ -35,16 +35,11 @@ export default function App() {
 		</>
 	);
 
-	const ref = useRef(null);
-
-	useEffect(() => {
-		const scene = createEmptyScene();
-		ref.current.appendChild(scene);
-	});
+	const scene = createEmptyScene();
 
 	return (
 		<div id='content'>
-			<div ref={ref} id='renderer'></div>
+			<Renderer scene={scene} />
 			<a className='botao' id='back' href="/"><p>{'<'}</p></a>
 			<button className='botao' id='send'><p>Enviar</p></button>
 			<div id='configs'>
@@ -57,4 +52,14 @@ export default function App() {
 			</div>
 		</div>
 	);
+}
+
+function Renderer({scene}) {
+	const ref = useRef(null);
+
+	useEffect(() => {
+		ref.current.appendChild(scene);
+	}, []);
+
+	return <div ref={ref} id='renderer'></div>;
 }
