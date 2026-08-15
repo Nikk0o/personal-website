@@ -5,10 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "npm install"
-  },
-  "bin": {
-    "bin": "index.js"
+    "build": "npm install; vite build",
+	"api": "node index.js",
+	"page": "vite webpage/main.jsx"
   },
   "repository": {
     "type": "git",
@@ -21,10 +20,11 @@
   },
   "homepage": "https://github.com/Nikk0o/personal-website#readme",
   "dependencies": {
-    "cor": "^0.0.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "three": "^0.185.1",
-    "vite": "^8.2.1"
+    "vite": "^8.2.1",
+	"react": "^19.2.8",
+    "react-dom": "^19.2.8"
   }
 }
