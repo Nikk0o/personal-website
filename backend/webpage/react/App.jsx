@@ -36,7 +36,8 @@ export default function App() {
 	return (
 		<div id='content'>
 			<div id='renderer'></div>
-			<a id='back' href="/"><p>{'<'}</p></a>
+			<a className='botao' id='back' href="/"><p>{'<'}</p></a>
+			<button className='botao' id='send'><p>Enviar</p></button>
 			<div id='configs'>
 				<h1>Enviar animação</h1>
 				<div style={{

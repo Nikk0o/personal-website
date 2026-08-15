@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "npm install; vite build",
-	"api": "node index.js",
-	"page": "vite webpage/main.jsx"
+	"api": "node api/index.js",
+	"page": "vite webpage/"
   },
   "repository": {
     "type": "git",
