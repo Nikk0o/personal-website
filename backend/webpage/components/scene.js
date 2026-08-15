@@ -30,7 +30,7 @@ function createEmptyScene() {
 		scene.add(model);
 		normal_model = model;
 
-		loader.load('http://localhost:3000/storage/models/felix mixamo.glb', (gltf2) => {
+		loader.load('http://localhost:3000/storage/models/felix_mixamo.glb', (gltf2) => {
 			const model2 = gltf2.scene;
 			mixamo_model = model2;
 		}, undefined, console.log);

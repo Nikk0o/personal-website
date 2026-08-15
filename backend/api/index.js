@@ -121,8 +121,8 @@ const app = express()
 
 app.use(cors({ origin: '*' }))
 
-app.get('/storage/*path', (req, res) => {
-	res.sendFile(path.join(import.meta.dirname, req.params.path.join('/')))
+app.get('/storage/*name', (req, res) => {
+	res.sendFile(path.join(import.meta.dirname, req.path))
 })
 
 app.get('/api/dance', (req, res) => {

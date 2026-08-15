@@ -60,7 +60,7 @@ export function setupScene(width, height, modelpath, bg_color) {
 		renderer.domElement.setAttribute('title', animation.title);
 
 		if (animation.mixamo)
-			modelpath += 'felix mixamo.glb';
+			modelpath += 'felix_mixamo.glb';
 		else
 			modelpath += 'felix.glb';
 
