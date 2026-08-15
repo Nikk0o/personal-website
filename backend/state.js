@@ -24,7 +24,7 @@ function setupState(t, N, nd) {
 
 	phi = newtonRaphson(f, df)
 
-	last_update = Date.now()
+	last_update = 0
 
 	console.log("phi: " + phi.toString())
 }

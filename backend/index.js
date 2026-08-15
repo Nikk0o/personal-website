@@ -10,6 +10,7 @@ const animations = {
 		title: 'Rest',
 		openEyes: false,
 		blink: false,
+		mixamo: false,
 		camera: {
 			FOV: 4,
 			position: {
@@ -29,6 +30,7 @@ const animations = {
 		title: 'Backwards long jump',
 		openEyes: true,
 		blink: true,
+		mixamo: false,
 		camera: {
 			FOV: 7,
 			position: {
@@ -39,6 +41,67 @@ const animations = {
 			lookAt: {
 				x: 0,
 				y: 4,
+				z: 0
+			}
+		}
+	},
+	'1': {
+		id: 'twerk',
+		title: 'Twerk',
+		openEyes: true,
+		blink: true,
+		mixamo: true,
+		camera: {
+			FOV: 5,
+			position: {
+				x: 6,
+				y: 5,
+				z: 6
+			},
+			lookAt: {
+				x: 0,
+				y: 2,
+				z: 0
+			}
+		}
+
+	},
+	'2': {
+		id: 'gangnam',
+		title: 'Gangnam Style',
+		openEyes: true,
+		blink: true,
+		mixamo: true,
+		camera: {
+			FOV: 5,
+			position: {
+				x: 0.4,
+				y: 2,
+				z: 6
+			},
+			lookAt: {
+				x: 0.4,
+				y: 2,
+				z: 0
+			}
+		}
+	},
+	'3': {
+		id: 'swing',
+		title: 'Swing',
+		openEyes: true,
+		blink: true,
+		mixamo: true,
+		camera: {
+			FOV: 5,
+			position: {
+				x: 0.5,
+				y: 2,
+				z: 6
+			},
+			lookAt: {
+				x: 0.5,
+				y: 2,
 				z: 0
 			}
 		}

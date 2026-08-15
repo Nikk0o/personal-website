@@ -59,7 +59,12 @@ export function setupScene(width, height, modelpath, bg_color) {
 
 		renderer.domElement.setAttribute('title', animation.title);
 
-		loader.load(modelpath+"felix.glb", function (gltf) {
+		if (animation.mixamo)
+			modelpath += 'felix mixamo.glb';
+		else
+			modelpath += 'felix.glb';
+
+		loader.load(modelpath, function (gltf) {
 			const model = gltf.scene;
 			scene.add(model);
 
@@ -68,11 +73,13 @@ export function setupScene(width, height, modelpath, bg_color) {
 			const action = mixer.clipAction(THREE.AnimationClip.findByName(clips, animation.id))
 			action.play();
 
-			let cubes = getHeadTextureMeshes(scene);
+			let cubes = getHeadTextureMeshes(scene, animation.mixamo);
 			if (!animation.openEyes)
 				cubes[0].material = cubes[1].material;
 
-			renderer.setAnimationLoop(animate(animation.blink, mixer, renderer, scene, camera, cubes));
+			renderer.setAnimationLoop(
+				animate(animation.blink, mixer, renderer, scene, camera, cubes)
+			);
 		});
 	})
 
@@ -124,7 +131,13 @@ function animate(
 
 // Função para pegar os objetos que têm as texturas
 // com olho aberto e fechado.
-function getHeadTextureMeshes(scene) {
-	let head = scene.getObjectByName('cabeca001');
-	return [ head.getObjectByName('Cube011_1'), head.getObjectByName('Cube011_2') ];
+function getHeadTextureMeshes(scene, mixamo) {
+	if (!mixamo) {
+		let head = scene.getObjectByName('cabeca001');
+		return [ head.getObjectByName('Cube011_1'), head.getObjectByName('Cube011_2') ];
+	}
+	else {
+		let head = scene.getObjectByName('cabeca002');
+		return [ head.getObjectByName('cabeca001mesh_1'), head.getObjectByName('cabeca001mesh_2') ];
+	}
 }
