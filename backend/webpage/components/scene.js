@@ -1,11 +1,13 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons';
 
+export { createEmptyScene };
+
 const clock = new THREE.Timer();
 
-function emptyScene() {
+function createEmptyScene() {
 	const scene = new THREE.Scene();
-	const renderer = new THREE.Renderer();
+	const renderer = new THREE.WebGLRenderer();
 
 	let camera = new THREE.PerspectiveCamera();
 	camera.position.set(10, 10, 10);
@@ -28,7 +30,7 @@ function emptyScene() {
 			mixamo_model = model2;
 		}, undefined, console.log);
 
-	}}, undefined, console.log);
+	}, undefined, console.log);
 
 	renderer.setAnimationLoop(animate);
 
@@ -38,4 +40,6 @@ function emptyScene() {
 
 		renderer.render(scene, camera);
 	}
+
+	return renderer.domElement;
 }

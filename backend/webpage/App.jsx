@@ -1,4 +1,6 @@
-import InputContainer from './InputContainer.jsx';
+import InputContainer from './components/InputContainer.jsx';
+import { createEmptyScene } from './components/scene.js';
+import { useEffect, useRef } from 'react';
 
 export default function App() {
 
@@ -33,9 +35,16 @@ export default function App() {
 		</>
 	);
 
+	const ref = useRef(null);
+
+	useEffect(() => {
+		const scene = createEmptyScene();
+		ref.current.appendChild(scene);
+	});
+
 	return (
 		<div id='content'>
-			<div id='renderer'></div>
+			<div ref={ref} id='renderer'></div>
 			<a className='botao' id='back' href="/"><p>{'<'}</p></a>
 			<button className='botao' id='send'><p>Enviar</p></button>
 			<div id='configs'>
