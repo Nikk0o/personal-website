@@ -35,11 +35,12 @@ function setupState(t, N, nd) {
 function getState() {
 	let u = 0.0
 
-	if (Date.now() - last_update > update_interval) {
-		u = nextState()
+	const now = Date.now()
+	if (now - last_update > update_interval) {
+		u = nextState(new Date(now))
 		dance = randomDance(u)
 
-		last_update = Date.now()
+		last_update = now
 	}
 
 	if (state == 1) return -1
@@ -47,7 +48,7 @@ function getState() {
 }
 
 // Atualiza o estado
-function nextState() {
+function nextState(now) {
 
 	// Variável aleatória uniforme em [0, 1)
 	const u = Math.random()
@@ -66,6 +67,15 @@ function nextState() {
 	// razão phi resulta em 1. Então,
 	// no nível máximo de cansaço, o
 	// estado sempre troca.
+
+	// Pequena ideia: fazer ele dormir sempre das
+	// 22 às 6.
+	if (now.getHours() >= 22 || now.getHours() < 6) {
+		state = 1
+		tired_lv = n
+
+		return u
+	}
 
 	let change = false
 	if (state == 1) {
