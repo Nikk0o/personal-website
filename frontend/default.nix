@@ -6,8 +6,6 @@ pkgs.buildNpmPackage {
 
 	buildPhase = "";
 
-	npmDepsHash = "sha256-";
-
 	installPhase = ''
 		mkdir -p $out/
 		cp * $out -r'';
