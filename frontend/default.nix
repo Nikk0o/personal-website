@@ -1,10 +1,12 @@
 { pkgs ? import <nixpkgs> {} }:
-pkgs.stdenv.mkDerivation {
-	pname = "lagarto-gay-frontend";
+pkgs.buildNpmPackage {
+	pname = "lagarto-gay";
 	version = "1.0";
 	src = ./.;
 
 	buildPhase = "";
+
+	npmDepsHash = "sha-256";
 
 	installPhase = ''
 		mkdir -p $out/
