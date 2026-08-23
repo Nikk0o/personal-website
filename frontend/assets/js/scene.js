@@ -25,79 +25,40 @@ export function setupScene(width, height, modelpath, bg_color) {
 
 	let mixer = null;
 
-	fetch('/api/dance')
-	.then((response) => {
-		if (response.ok)
-			return response.json()
-		else
-			return null
-	})
-	.then((animation) => {
-		if (!animation) {
-			return;
-		}
+	camera = new THREE.OrthographicCamera(-4, 4, 4*height/width, -4*height/width, 0.1, 1000);
+	camera.position.set(0, 6, 8);
+	camera.lookAt(0, 1, 0);
 
-		const objcam = animation.camera;
+	renderer.domElement.setAttribute('title', 'zzz');
 
-		camera = new THREE.OrthographicCamera(
-			-objcam.FOV,
-			objcam.FOV,
-			objcam.FOV*height/width,
-			-objcam.FOV*height/width,
-			0.1,
-			1000);
+	loader.load(modelpath+'felix.glb', function (gltf) {
+		const model = gltf.scene;
+		scene.add(model);
 
-		camera.position.set(
-			objcam.position.x,
-			objcam.position.y,
-			objcam.position.z);
+		mixer = new THREE.AnimationMixer(model);
+		const clips = gltf.animations;
+		const action = mixer.clipAction(THREE.AnimationClip.findByName(clips, 'descanso'))
+		action.play();
 
-		camera.lookAt(
-			objcam.lookAt.x,
-			objcam.lookAt.y,
-			objcam.lookAt.z);
+		let cubes = getHeadTextureMeshes(scene);
+		cubes[0].material = cubes[1].material;
 
-		renderer.domElement.setAttribute('title', animation.title);
-
-		if (animation.mixamo)
-			modelpath += 'felix_mixamo.glb';
-		else
-			modelpath += 'felix.glb';
-
-		loader.load(modelpath, function (gltf) {
-			const model = gltf.scene;
-			scene.add(model);
-
-			mixer = new THREE.AnimationMixer(model);
-			const clips = gltf.animations;
-			const action = mixer.clipAction(THREE.AnimationClip.findByName(clips, animation.id))
-			action.play();
-
-			let cubes = getHeadTextureMeshes(scene, animation.mixamo);
-			if (!animation.openEyes)
-				cubes[0].material = cubes[1].material;
-
-			renderer.setAnimationLoop(
-				animate(animation.blink, mixer, renderer, scene, camera, cubes)
-			);
-		});
-	})
+		renderer.setAnimationLoop(
+			animate(mixer, renderer, scene, camera, cubes)
+		);
+	});
 
 	const c = document.getElementById('content-container');
 	c.insertBefore(renderer.domElement, c.firstChild);
 }
 
 function animate(
-	blink,
 	mixer,
 	renderer,
 	scene,
 	camera,
 	cubes
 ) {
-	let big_delta = 0;
-	let eyes_closed = false;
-
 	return function (t) {
 		clock.update();
 		const delta = clock.getDelta();
@@ -105,39 +66,13 @@ function animate(
 		if (mixer != null)
 			mixer.update(delta);
 
-		// Animação de piscar
-		big_delta += delta;
-		let changed = false
-		if (blink) {
-			if (eyes_closed && big_delta > 0.25 || !eyes_closed && big_delta > 1.5) {
-				eyes_closed = !eyes_closed;
-				changed = true;
-			}
-			else
-				changed = false;
-
-			if (changed) {
-				const tmp = cubes[0].material;
-				cubes[0].material = cubes[1].material;
-				cubes[1].material = tmp;
-
-				big_delta = 0;
-			}
-		}
-
 		renderer.render(scene, camera);
 	}
 }
 
 // Função para pegar os objetos que têm as texturas
 // com olho aberto e fechado.
-function getHeadTextureMeshes(scene, mixamo) {
-	if (!mixamo) {
-		let head = scene.getObjectByName('cabeca001');
-		return [ head.getObjectByName('Cube011_1'), head.getObjectByName('Cube011_2') ];
-	}
-	else {
-		let head = scene.getObjectByName('cabeca002');
-		return [ head.getObjectByName('cabeca001mesh_1'), head.getObjectByName('cabeca001mesh_2') ];
-	}
+function getHeadTextureMeshes(scene) {
+	let head = scene.getObjectByName('cabeca001');
+	return [ head.getObjectByName('Cube011_1'), head.getObjectByName('Cube011_2') ];
 }
